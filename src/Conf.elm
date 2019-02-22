@@ -5,28 +5,18 @@ module Conf exposing
     , colorPalette
     , green
     , headerHeight
-    , pseudoRandomColor
     )
 
-import Array
-import Browser
 import Color as ElmColor
-import Color.Convert
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html exposing (Html)
-import Html.Attributes
-import Html.Events
 import Internal.CommonRoute as CommonRoute
 import Internal.Shared as Shared exposing (Model, Msg(..))
-import Json.Decode
-import Route
-import Svg
 import Svg.Attributes as SA
-import Utils
 
 
 
@@ -124,21 +114,6 @@ colorPalette colorMode =
                 , green
                 ]
             }
-
-
-pseudoRandomColor : Model -> String -> Color
-pseudoRandomColor model title =
-    let
-        index =
-            modBy 5 (String.length title)
-
-        series =
-            c model .series
-
-        seriesArray =
-            Array.fromList series
-    in
-    Maybe.withDefault green <| Array.get index seriesArray
 
 
 c : Model -> (ColorPalette -> b) -> b

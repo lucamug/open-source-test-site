@@ -17537,109 +17537,6 @@ var author$project$Header$view = function (model) {
 						]))
 				])));
 };
-var author$project$View$sizeOfBoxesFloat = function (model) {
-	var size = model.width / model.squareQuantity;
-	return size;
-};
-var author$project$View$sizeOfBoxesInt = function (model) {
-	return elm$core$Basics$floor(
-		author$project$View$sizeOfBoxesFloat(model));
-};
-var elm$core$List$repeatHelp = F3(
-	function (result, n, value) {
-		repeatHelp:
-		while (true) {
-			if (n <= 0) {
-				return result;
-			} else {
-				var $temp$result = A2(elm$core$List$cons, value, result),
-					$temp$n = n - 1,
-					$temp$value = value;
-				result = $temp$result;
-				n = $temp$n;
-				value = $temp$value;
-				continue repeatHelp;
-			}
-		}
-	});
-var elm$core$List$repeat = F2(
-	function (n, value) {
-		return A3(elm$core$List$repeatHelp, _List_Nil, n, value);
-	});
-var mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
-	return {$: 'AlignY', a: a};
-};
-var mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
-var mdgriffith$elm_ui$Element$centerY = mdgriffith$elm_ui$Internal$Model$AlignY(mdgriffith$elm_ui$Internal$Model$CenterY);
-var mdgriffith$elm_ui$Internal$Flag$moveX = mdgriffith$elm_ui$Internal$Flag$flag(25);
-var mdgriffith$elm_ui$Internal$Model$MoveX = function (a) {
-	return {$: 'MoveX', a: a};
-};
-var mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
-	function (a, b) {
-		return {$: 'TransformComponent', a: a, b: b};
-	});
-var mdgriffith$elm_ui$Element$moveLeft = function (x) {
-	return A2(
-		mdgriffith$elm_ui$Internal$Model$TransformComponent,
-		mdgriffith$elm_ui$Internal$Flag$moveX,
-		mdgriffith$elm_ui$Internal$Model$MoveX(-x));
-};
-var author$project$View$textInBoxes = F2(
-	function (model, _n0) {
-		var string = _n0.string;
-		var quantity = _n0.quantity;
-		var paddingLeft = _n0.paddingLeft;
-		var fontRatio = _n0.fontRatio;
-		var backgroundColor = _n0.backgroundColor;
-		var fontColor = _n0.fontColor;
-		var size = author$project$View$sizeOfBoxesInt(model);
-		var paddingLeft_ = elm$core$Basics$floor((size / 120) * paddingLeft);
-		var fontSize = ((size / 3) | 0) * fontRatio;
-		var _n1 = model.layoutMode;
-		if (_n1.$ === 'Grid') {
-			return A2(
-				elm$core$List$indexedMap,
-				F2(
-					function (index, _n2) {
-						return A2(
-							mdgriffith$elm_ui$Element$el,
-							_List_fromArray(
-								[
-									mdgriffith$elm_ui$Element$height(
-									mdgriffith$elm_ui$Element$px(size)),
-									mdgriffith$elm_ui$Element$width(
-									mdgriffith$elm_ui$Element$px(size)),
-									mdgriffith$elm_ui$Element$clip,
-									mdgriffith$elm_ui$Element$Font$color(fontColor),
-									mdgriffith$elm_ui$Element$Background$color(backgroundColor)
-								]),
-							A2(
-								mdgriffith$elm_ui$Element$el,
-								_List_fromArray(
-									[
-										mdgriffith$elm_ui$Element$centerY,
-										A2(mdgriffith$elm_ui$Element$paddingXY, paddingLeft_, 0),
-										mdgriffith$elm_ui$Element$Font$size(fontSize),
-										mdgriffith$elm_ui$Element$moveLeft(size * index)
-									]),
-								mdgriffith$elm_ui$Element$text(string)));
-					}),
-				A2(elm$core$List$repeat, quantity, _Utils_Tuple0));
-		} else {
-			return _List_fromArray(
-				[
-					A2(
-					mdgriffith$elm_ui$Element$el,
-					_List_fromArray(
-						[
-							mdgriffith$elm_ui$Element$padding(20),
-							mdgriffith$elm_ui$Element$Font$size(24)
-						]),
-					mdgriffith$elm_ui$Element$text(string))
-				]);
-		}
-	});
 var mdgriffith$elm_ui$Internal$Model$FocusStyleOption = function (a) {
 	return {$: 'FocusStyleOption', a: a};
 };
@@ -17927,158 +17824,65 @@ var author$project$View$view = function (model) {
 							{backgroundColor: elm$core$Maybe$Nothing, borderColor: elm$core$Maybe$Nothing, shadow: elm$core$Maybe$Nothing})
 						])
 				},
-				_Utils_ap(
-					_List_fromArray(
-						[
-							mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
-							mdgriffith$elm_ui$Element$Font$family(
-							_List_fromArray(
-								[
-									mdgriffith$elm_ui$Element$Font$typeface('Noto Sans Japanese'),
-									mdgriffith$elm_ui$Element$Font$sansSerif
-								])),
-							mdgriffith$elm_ui$Element$Font$color(
-							A2(
-								author$project$Conf$c,
-								model,
-								function ($) {
-									return $.font;
-								})),
-							mdgriffith$elm_ui$Element$inFront(
-							author$project$Header$view(model)),
-							mdgriffith$elm_ui$Element$Background$color(
-							A2(
-								author$project$Conf$c,
-								model,
-								function ($) {
-									return $.background;
-								})),
-							mdgriffith$elm_ui$Element$htmlAttribute(
-							A2(elm$html$Html$Attributes$style, 'transition', 'background 1000ms linear'))
-						]),
-					function () {
-						switch (route.$) {
-							case 'Empty':
-								return _List_Nil;
-							case 'Filter':
-								return _List_Nil;
-							default:
-								return _List_Nil;
-						}
-					}()),
-				function () {
-					var _n1 = model.layoutMode;
-					if (_n1.$ === 'Grid') {
-						return mdgriffith$elm_ui$Element$wrappedRow(
-							_List_fromArray(
-								[
-									mdgriffith$elm_ui$Element$paddingEach(
-									{bottom: 0, left: 0, right: 0, top: author$project$Conf$headerHeight})
-								]));
-					} else {
-						return mdgriffith$elm_ui$Element$column(
-							_List_fromArray(
-								[
-									mdgriffith$elm_ui$Element$paddingEach(
-									{bottom: 20, left: 20, right: 20, top: author$project$Conf$headerHeight + 20}),
-									mdgriffith$elm_ui$Element$spacing(10),
-									mdgriffith$elm_ui$Element$width(
-									A2(mdgriffith$elm_ui$Element$maximum, 800, mdgriffith$elm_ui$Element$fill)),
-									mdgriffith$elm_ui$Element$centerX,
-									mdgriffith$elm_ui$Element$Border$shadow(
-									{
-										blur: 10,
-										color: A4(mdgriffith$elm_ui$Element$rgba, 0, 0, 0, 0.2),
-										offset: _Utils_Tuple2(0, 0),
-										size: 5
-									})
-								]));
-					}
-				}()(
-					_Utils_ap(
+				_List_fromArray(
+					[
+						mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
+						mdgriffith$elm_ui$Element$Font$family(
 						_List_fromArray(
 							[
-								mdgriffith$elm_ui$Element$html(
-								A3(
-									elm$html$Html$node,
-									'style',
-									_List_Nil,
-									_List_fromArray(
-										[
-											elm$html$Html$text(
-											'\n                        .width-px-' + (elm$core$String$fromInt(
-												author$project$View$sizeOfBoxesInt(model)) + (' {\n                            width: ' + (elm$core$String$fromFloat(
-												author$project$View$sizeOfBoxesFloat(model)) + 'px\n                        }\n\n                        .animatedItem {\n                            transition: all 100ms linear;\n                        }\n                        .animatedItem:hover {\n                            transform: scale(1.7, 1.7);\n                            z-index: 1;\n                        }\n                        '))))
-										])))
-							]),
-						_Utils_ap(
-							A2(
-								author$project$View$textInBoxes,
-								model,
-								{
-									backgroundColor: A2(
-										author$project$Conf$c,
-										model,
-										function ($) {
-											return $.background;
-										}),
-									fontColor: A2(
-										author$project$Conf$c,
-										model,
-										function ($) {
-											return $.font;
-										}),
-									fontRatio: 2,
-									paddingLeft: 50,
-									quantity: 3,
-									string: 'People'
-								}),
-							_Utils_ap(
-								A2(
-									author$project$View$textInBoxes,
-									model,
-									{
-										backgroundColor: A2(
-											author$project$Conf$c,
-											model,
-											function ($) {
-												return $.background;
-											}),
-										fontColor: A2(
-											author$project$Conf$c,
-											model,
-											function ($) {
-												return $.font;
-											}),
-										fontRatio: 2,
-										paddingLeft: 60,
-										quantity: 4,
-										string: 'Keywords'
-									}),
-								_Utils_ap(
-									A2(
-										author$project$View$textInBoxes,
-										model,
-										{
-											backgroundColor: A2(
-												author$project$Conf$c,
-												model,
-												function ($) {
-													return $.background;
-												}),
-											fontColor: A2(
-												author$project$Conf$c,
-												model,
-												function ($) {
-													return $.font;
-												}),
-											fontRatio: 2,
-											paddingLeft: 25,
-											quantity: 2,
-											string: 'Links'
-										}),
-									_List_fromArray(
-										[author$project$Footer$view])))))))
+								mdgriffith$elm_ui$Element$Font$typeface('Noto Sans Japanese'),
+								mdgriffith$elm_ui$Element$Font$sansSerif
+							])),
+						mdgriffith$elm_ui$Element$Font$color(
+						A2(
+							author$project$Conf$c,
+							model,
+							function ($) {
+								return $.font;
+							})),
+						mdgriffith$elm_ui$Element$inFront(
+						author$project$Header$view(model)),
+						mdgriffith$elm_ui$Element$Background$color(
+						A2(
+							author$project$Conf$c,
+							model,
+							function ($) {
+								return $.background;
+							})),
+						mdgriffith$elm_ui$Element$htmlAttribute(
+						A2(elm$html$Html$Attributes$style, 'transition', 'background 1000ms linear'))
+					]),
+				A2(
+					mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							mdgriffith$elm_ui$Element$paddingEach(
+							{bottom: 20, left: 20, right: 20, top: author$project$Conf$headerHeight + 20}),
+							mdgriffith$elm_ui$Element$spacing(10),
+							mdgriffith$elm_ui$Element$width(
+							A2(mdgriffith$elm_ui$Element$maximum, 800, mdgriffith$elm_ui$Element$fill)),
+							mdgriffith$elm_ui$Element$centerX,
+							mdgriffith$elm_ui$Element$Border$shadow(
+							{
+								blur: 10,
+								color: A4(mdgriffith$elm_ui$Element$rgba, 0, 0, 0, 0.2),
+								offset: _Utils_Tuple2(0, 0),
+								size: 5
+							})
+						]),
+					_List_fromArray(
+						[
+							mdgriffith$elm_ui$Element$html(
+							A3(
+								elm$html$Html$node,
+								'style',
+								_List_Nil,
+								_List_fromArray(
+									[
+										elm$html$Html$text('\n                        .animatedItem {\n                            transition: all 100ms linear;\n                        }\n                        .animatedItem:hover {\n                            transform: scale(1.7, 1.7);\n                            z-index: 1;\n                        }\n                        ')
+									]))),
+							author$project$Footer$view
+						])))
 			]),
 		title: 'Rakuten Open Source'
 	};

@@ -16,8 +16,6 @@ import ElmTextSearch
 import Index.Defaults
 import Internal.CommonRoute as CommonRoute
 import Keyboard
-import List.Extra
-import NaturalOrdering
 import Route
 import StopWordFilter
 import Url
