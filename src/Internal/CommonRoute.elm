@@ -1,4 +1,4 @@
-module CommonRoute exposing
+module Internal.CommonRoute exposing
     ( fromUrl
     , toStringAndHash
     , urlToMaybeRoute

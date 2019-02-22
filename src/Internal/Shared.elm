@@ -1,4 +1,4 @@
-module Shared exposing
+module Internal.Shared exposing
     ( ClickData
     , ColorMode(..)
     , Flags
@@ -12,9 +12,9 @@ module Shared exposing
 
 import Browser
 import Browser.Navigation
-import CommonRoute
 import ElmTextSearch
 import Index.Defaults
+import Internal.CommonRoute as CommonRoute
 import Keyboard
 import List.Extra
 import NaturalOrdering

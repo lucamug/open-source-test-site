@@ -1,10 +1,10 @@
-module Main exposing (main)
+module Internal.Main exposing (main)
 
 import Browser
 import Browser.Events
+import Internal.Port as Port
+import Internal.Shared as Shared
 import Keyboard
-import Port
-import Shared
 import View
 
 

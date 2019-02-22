@@ -9,7 +9,7 @@
     let pageInTopArea = pageYOffset <= headerHeight;
     let node = w.document.createElement('div');
     w.document.body.appendChild(node);
-    let app = Elm.Main.init({
+    let app = Elm.Internal.Main.init({
         flags: {
             width: w.innerWidth
         },
