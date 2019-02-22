@@ -5,9 +5,6 @@ import Browser
 import Color as ElmColor
 import Color.Convert
 import CommonRoute
-import Data.Keywords as Keywords
-import Data.Links as Links
-import Data.People as People
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
@@ -435,96 +432,6 @@ viewList model { itemsToShow, itemType, select } =
             itemsToShow
 
 
-viewLinksList : Model -> List (Element Msg)
-viewLinksList model =
-    let
-        searchResults =
-            Result.map Tuple.second <|
-                Shared.resultSearch model.indexForLinks (Utils.decode model.filter)
-
-        itemsToShow =
-            case searchResults of
-                Ok result ->
-                    List.concatMap
-                        (\item ->
-                            let
-                                id =
-                                    Tuple.first item
-                            in
-                            List.filter (\item_ -> item_.lookup.name == id) model.sortedLinksWithQuantity
-                        )
-                        result
-
-                Err _ ->
-                    model.sortedLinksWithQuantity
-    in
-    viewList model
-        { itemsToShow = itemsToShow
-        , itemType = Link
-        , select = \item -> Route.SelectedLink <| Utils.encode item.lookup.name
-        }
-
-
-viewPeopleList : Model -> List (Element Msg)
-viewPeopleList model =
-    let
-        searchResults =
-            Result.map Tuple.second <|
-                Shared.resultSearch model.indexForPeople (Utils.decode model.filter)
-
-        itemsToShow =
-            case searchResults of
-                Ok result ->
-                    List.concatMap
-                        (\item ->
-                            let
-                                id =
-                                    Tuple.first item
-                            in
-                            List.filter (\item_ -> item_.lookup.name == id) model.sortedPeopleWithQuantity
-                        )
-                        result
-
-                Err _ ->
-                    model.sortedPeopleWithQuantity
-    in
-    viewList model
-        { itemsToShow = itemsToShow
-        , itemType = Person
-        , select = \item -> Route.SelectedPerson <| Maybe.withDefault "" <| People.idToString item.lookup.id
-        }
-
-
-viewKeywordsList : Model -> List (Element Msg)
-viewKeywordsList model =
-    let
-        searchResults =
-            Result.map Tuple.second <|
-                Shared.resultSearch model.indexForKeywords (Utils.decode model.filter)
-
-        itemsToShow =
-            case searchResults of
-                Ok result ->
-                    List.concatMap
-                        (\item ->
-                            let
-                                id =
-                                    Tuple.first item
-                            in
-                            List.filter (\item_ -> item_.lookup.name == id) model.sortedKeywordsWithQuantity
-                        )
-                        result
-
-                Err _ ->
-                    model.sortedKeywordsWithQuantity
-    in
-    viewList model
-        { itemsToShow = itemsToShow
-        , itemType = Keyword
-        , select = \item -> Route.SelectedKeyword <| Maybe.withDefault "" <| Keywords.idToString item.lookup.id
-        }
-
-
 
 {-
    ███████ ██    ██  ██████      ██  ██████  ██████  ███    ██ ███████
@@ -847,40 +754,6 @@ viewSelectionTitle model { item, itemType, extraData } extra =
         ]
 
 
-viewKeywordsRelatedLinks : Model -> Keywords.Id -> List (Element Msg)
-viewKeywordsRelatedLinks model id =
-    let
-        links =
-            List.filter
-                (\item ->
-                    let
-                        filtered =
-                            List.filter (\keyword -> keyword == id) item.lookup.keywords
-                    in
-                    List.length filtered > 0
-                )
-                model.sortedLinksWithQuantity
-    in
-    listOfLinks model links { person = Nothing, keyword = Just id }
-
-
-viewPeopleRelatedLinks : Model -> People.Id -> List (Element Msg)
-viewPeopleRelatedLinks model id =
-    let
-        links =
-            List.filter
-                (\item ->
-                    let
-                        filtered =
-                            List.filter (\author -> author == id) item.lookup.authors
-                    in
-                    List.length filtered > 0
-                )
-                model.sortedLinksWithQuantity
-    in
-    listOfLinks model links { person = Just id, keyword = Nothing }
-
-
 linkUrl : { b | lookup : { a | name : String } } -> ItemType -> String
 linkUrl item type_ =
     CommonRoute.toStringAndHash Route.conf <|
@@ -902,113 +775,6 @@ linkUrl item type_ =
                     Utils.encode item.lookup.name
 
 
-listOfLinks :
-    Model
-    -> List { lookup : Links.Attributes, quantity : Int }
-    -> { person : Maybe People.Id, keyword : Maybe Keywords.Id }
-    -> List (Element Msg)
-listOfLinks model links toSkip =
-    List.map
-        (\item ->
-            column
-                [ width fill
-                , spacing 10
-                ]
-                [ paragraph
-                    [ width fill ]
-                    [ if isVideo item.lookup.url then
-                        text "Video: "
-
-                      else
-                        none
-                    , link
-                        [ width fill
-                        , Font.size 20
-                        ]
-                        { url = linkUrl item Link
-                        , label = text <| item.lookup.name ++ " "
-                        }
-                    , newTabLink []
-                        { url = item.lookup.url
-                        , label = icon Icon_ExternalLink (c model .font) 16
-                        }
-                    ]
-                , paragraph [ Font.size 14, Font.color <| rgb 0.5 0.5 0.5 ] [ text item.lookup.description ]
-                , wrappedRow [ spacing 10, width fill ]
-                    ([ link
-                        []
-                        { url = linkUrl item Link
-                        , label = viewSquare model { item = item, itemType = Link }
-                        }
-                     ]
-                        ++ List.map
-                            (\id ->
-                                let
-                                    maybeItem =
-                                        getPerson model id
-                                in
-                                case maybeItem of
-                                    Nothing ->
-                                        none
-
-                                    Just item_ ->
-                                        link []
-                                            { url = linkUrl item_ Person
-                                            , label =
-                                                viewSquare model
-                                                    { item = item_
-                                                    , itemType = Person
-                                                    }
-                                            }
-                            )
-                            (List.filter
-                                (\id ->
-                                    case toSkip.person of
-                                        Just idToSkip ->
-                                            id /= idToSkip
-
-                                        Nothing ->
-                                            True
-                                )
-                                item.lookup.authors
-                            )
-                        ++ List.map
-                            (\id ->
-                                let
-                                    maybeItem =
-                                        getKeyword model id
-                                in
-                                case maybeItem of
-                                    Nothing ->
-                                        none
-
-                                    Just item_ ->
-                                        link []
-                                            { url = linkUrl item_ Keyword
-                                            , label =
-                                                viewSquare model
-                                                    { item = item_
-                                                    , itemType = Keyword
-                                                    }
-                                            }
-                            )
-                            (List.filter
-                                (\id ->
-                                    case toSkip.keyword of
-                                        Just idToSkip ->
-                                            id /= idToSkip
-
-                                        Nothing ->
-                                            True
-                                )
-                                item.lookup.keywords
-                            )
-                    )
-                ]
-        )
-        links
-
-
 
 {-
    ██    ██ ██ ███████ ██     ██     ███████ ███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██
@@ -1019,282 +785,9 @@ listOfLinks model links toSkip =
 -}
 
 
-getLink : Model -> String -> Maybe Links.WithQuantity
-getLink model id =
-    let
-        items =
-            List.filter
-                (\i -> i.lookup.name == id)
-                model.sortedLinksWithQuantity
-    in
-    List.head items
-
-
-getKeyword : Model -> Keywords.Id -> Maybe Keywords.WithQuantity
-getKeyword model id =
-    let
-        items =
-            List.filter
-                (\i -> i.lookup.id == id)
-                model.sortedKeywordsWithQuantity
-    in
-    List.head items
-
-
-getPerson : Model -> People.Id -> Maybe People.WithQuantity
-getPerson model id =
-    let
-        items =
-            List.filter
-                (\i -> i.lookup.id == id)
-                model.sortedPeopleWithQuantity
-    in
-    List.head items
-
-
 isVideo : String -> Bool
 isVideo url =
     String.contains "https://www.youtube.com" url
-
-
-viewSelection : Model -> Route.Route -> Element Msg
-viewSelection model route =
-    let
-        columSpacing =
-            30
-    in
-    column
-        [ padding 20
-        , Background.color <| c model .background
-        , centerX
-        , centerY
-        , spacing 20
-        , width (fill |> maximum 640)
-        , inFront <|
-            link
-                [ Background.color <| c model .background
-                , padding 10
-                , alignRight
-                , htmlAttribute <| Html.Attributes.style "position" "fixed"
-                , alpha 0.5
-                ]
-                { label = icon Icon_Close (c model .font) 50
-                , url =
-                    CommonRoute.toStringAndHash Route.conf <|
-                        Route.routeToRestoreFilter model.filter
-                }
-        ]
-    <|
-        case route of
-            Route.SelectedLink id ->
-                let
-                    maybeItem =
-                        getLink model (Utils.decode id)
-                in
-                case maybeItem of
-                    Nothing ->
-                        [ itemNotFound ]
-
-                    Just item ->
-                        [ viewSelectionTitle model
-                            { item = item
-                            , itemType =
-                                if isVideo item.lookup.url then
-                                    LinkVideo
-
-                                else
-                                    Link
-                            , extraData = extraDataLink model item.lookup
-                            }
-                            [ newTabLink []
-                                { url = item.lookup.url
-                                , label = icon Icon_ExternalLink (c model .font) 30
-                                }
-                            ]
-                        , column [ spacing 10 ] <|
-                            List.map
-                                (\i ->
-                                    let
-                                        maybeItem_ =
-                                            getPerson model i
-                                    in
-                                    case maybeItem_ of
-                                        Nothing ->
-                                            none
-
-                                        Just item_ ->
-                                            link []
-                                                { url = CommonRoute.toStringAndHash Route.conf <| Route.SelectedPerson <| Maybe.withDefault "" <| People.idToString i
-                                                , label =
-                                                    row [ spacing 10 ]
-                                                        [ viewSquare model { item = item_, itemType = Person }
-                                                        , column [ width fill, spacing 4 ]
-                                                            [ el [ Font.size 14 ] <| text "Author"
-                                                            , paragraph [] [ text item_.lookup.name ]
-                                                            ]
-                                                        ]
-                                                }
-                                )
-                                item.lookup.authors
-                                ++ List.map
-                                    (\i ->
-                                        let
-                                            maybeItem_ =
-                                                getKeyword model i
-                                        in
-                                        case maybeItem_ of
-                                            Nothing ->
-                                                none
-
-                                            Just item_ ->
-                                                link []
-                                                    { url =
-                                                        CommonRoute.toStringAndHash Route.conf <|
-                                                            Route.SelectedKeyword <|
-                                                                Maybe.withDefault "" <|
-                                                                    Keywords.idToString i
-                                                    , label =
-                                                        row [ spacing 10 ]
-                                                            [ viewSquare model { item = item_, itemType = Keyword }
-                                                            , column [ width fill, spacing 4 ]
-                                                                [ el [ Font.size 14 ] <| text "Keyword"
-                                                                , paragraph [] [ text item_.lookup.name ]
-                                                                ]
-                                                            ]
-                                                    }
-                                    )
-                                    item.lookup.keywords
-                        ]
-
-            Route.SelectedKeyword string ->
-                let
-                    maybeId =
-                        Keywords.stringToId string
-
-                    maybeItem =
-                        case maybeId of
-                            Nothing ->
-                                Nothing
-
-                            Just id ->
-                                getKeyword model id
-                in
-                case maybeItem of
-                    Nothing ->
-                        [ itemNotFound ]
-
-                    Just item ->
-                        [ viewSelectionTitle model
-                            { item = item
-                            , itemType = Keyword
-                            , extraData = extraDataKeyword model item.lookup
-                            }
-                            []
-                        , column [ spacing columSpacing ] <| viewKeywordsRelatedLinks model item.lookup.id
-                        ]
-
-            Route.SelectedPerson string ->
-                let
-                    maybeId =
-                        People.stringToId string
-
-                    maybeItem =
-                        case maybeId of
-                            Nothing ->
-                                Nothing
-
-                            Just id ->
-                                getPerson model id
-                in
-                case maybeItem of
-                    Nothing ->
-                        [ itemNotFound ]
-
-                    Just item ->
-                        [ viewSelectionTitle model
-                            { item = item
-                            , itemType = Person
-                            , extraData = extraDataPerson model item.lookup
-                            }
-                            []
-                        , column [ spacing columSpacing ] <| viewPeopleRelatedLinks model item.lookup.id
-                        ]
-
-            Route.Empty ->
-                []
-
-            Route.Filter _ ->
-                []
-
-
-extraDataKeyword : Model -> Keywords.Attributes -> List (Element msg)
-extraDataKeyword model item =
-    []
-
-
-extraDataPerson : Model -> People.Attributes -> List (Element Msg)
-extraDataPerson model item =
-    [ row [ spacing 20 ] <|
-        (if String.length item.twitter > 0 then
-            [ newTabLink [ Font.size 16 ]
-                { url = "https://twitter.com/" ++ item.twitter
-                , label =
-                    row [ spacing 6 ]
-                        [ el [] <| icon Icon_Twitter (c model .font) 16
-                        , text <| item.twitter
-                        ]
-                }
-            ]
-
-         else
-            []
-        )
-            ++ (if String.length item.github > 0 then
-                    [ newTabLink [ Font.size 16 ]
-                        { url = "https://github.com/" ++ item.github
-                        , label =
-                            row [ spacing 6 ]
-                                [ el [] <| icon Icon_Github (c model .font) 16
-                                , text <| item.github
-                                ]
-                        }
-                    ]
-
-                else
-                    []
-               )
-    ]
-
-
-extraDataLink : Model -> Links.Attributes -> List (Element msg)
-extraDataLink model item =
-    (if String.length item.description > 0 then
-        [ paragraph [ Font.size 16 ] [ text <| item.description ]
-        ]
-
-     else
-        []
-    )
-        ++ (if String.length item.url > 0 then
-                [ newTabLink [ Font.size 16 ]
-                    { url = item.url
-                    , label = paragraph [ Font.size 16 ] [ text <| "Url: " ++ item.url ]
-                    }
-                ]
-
-            else
-                []
-           )
-        ++ (if String.length item.code > 0 then
-                [ newTabLink [ Font.size 16 ]
-                    { url = item.code
-                    , label = paragraph [ Font.size 16 ] [ text <| "Code: " ++ item.code ]
-                    }
-                ]
-
-            else
-                []
-           )
 
 
 
@@ -1353,18 +846,7 @@ view model =
                             []
 
                         _ ->
-                            [ inFront <|
-                                el
-                                    [ width fill
-                                    , height fill
-                                    , Background.color <| rgba 0 0 0 0.7
-                                    , htmlAttribute <| Html.Events.on "click" (Json.Decode.map Shared.Click clickDecoder)
-                                    , htmlAttribute <| Html.Attributes.id "cover"
-                                    , scrollbarY
-                                    ]
-                                <|
-                                    viewSelection model route
-                            ]
+                            []
                    )
             )
           <|
@@ -1410,7 +892,6 @@ view model =
                         , backgroundColor = c model .background
                         , fontColor = c model .font
                         }
-                    ++ viewPeopleList model
                     ++ textInBoxes model
                         { string = "Keywords"
                         , quantity = 4
@@ -1419,7 +900,6 @@ view model =
                         , backgroundColor = c model .background
                         , fontColor = c model .font
                         }
-                    ++ viewKeywordsList model
                     ++ textInBoxes model
                         { string = "Links"
                         , quantity = 2
@@ -1428,7 +908,6 @@ view model =
                         , backgroundColor = c model .background
                         , fontColor = c model .font
                         }
-                    ++ viewLinksList model
                 )
         ]
     }

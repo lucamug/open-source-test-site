@@ -13,9 +13,6 @@ module Shared exposing
 import Browser
 import Browser.Navigation
 import CommonRoute
-import Data.Keywords as Keywords
-import Data.Links as Links
-import Data.People as People
 import ElmTextSearch
 import Index.Defaults
 import Keyboard
@@ -70,14 +67,6 @@ type alias Model =
     , pageInTopArea : Bool
     , colorMode : ColorMode
     , layoutMode : LayoutMode
-    , sortedKeywordsWithQuantity : List Keywords.WithQuantity
-    , sortedPeopleWithQuantity : List People.WithQuantity
-    , sortedLinksWithQuantity : List Links.WithQuantity
-    , missingPeople : List People.Id
-    , missingKeywords : List Keywords.Id
-    , indexForPeople : ( ElmTextSearch.Index People.WithQuantity, List ( Int, String ) )
-    , indexForKeywords : ( ElmTextSearch.Index Keywords.WithQuantity, List ( Int, String ) )
-    , indexForLinks : ( ElmTextSearch.Index Links.WithQuantity, List ( Int, String ) )
     }
 
 
@@ -88,83 +77,6 @@ type alias Model =
 init : Flags -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
-        cleanedLinksWithQuantity =
-            List.map
-                (\item -> { lookup = item, quantity = 0 })
-                Links.list
-
-        cleanedKeywordsWithQuantity =
-            keywordsWithQuantity
-                |> List.filter
-                    (\item ->
-                        case item.maybeLookup of
-                            Just _ ->
-                                True
-
-                            Nothing ->
-                                False
-                    )
-                |> List.map
-                    (\item ->
-                        { lookup = Maybe.withDefault Keywords.empty item.maybeLookup
-                        , quantity = item.quantity
-                        }
-                    )
-
-        cleanedPeopleWithQuantity =
-            peopleWithQuantity
-                |> List.filter
-                    (\item ->
-                        case item.maybeLookup of
-                            Just _ ->
-                                True
-
-                            Nothing ->
-                                False
-                    )
-                |> List.map
-                    (\item ->
-                        { lookup = Maybe.withDefault People.empty item.maybeLookup
-                        , quantity = item.quantity
-                        }
-                    )
-
-        sortedPeopleWithQuantity =
-            List.sortWith (NaturalOrdering.compareOn (\item -> item.lookup.name)) cleanedPeopleWithQuantity
-
-        sortedKeywordsWithQuantity =
-            List.sortWith (NaturalOrdering.compareOn (\item -> item.lookup.name)) cleanedKeywordsWithQuantity
-
-        sortedLinksWithQuantity =
-            List.sortWith (NaturalOrdering.compareOn (\item -> item.lookup.name))
-                cleanedLinksWithQuantity
-
-        missingPeople =
-            peopleWithQuantity
-                |> List.filter
-                    (\item ->
-                        case item.maybeLookup of
-                            Just _ ->
-                                False
-
-                            Nothing ->
-                                True
-                    )
-                |> List.map (\item -> item.id)
-
-        missingKeywords =
-            keywordsWithQuantity
-                |> List.filter
-                    (\item ->
-                        case item.maybeLookup of
-                            Nothing ->
-                                True
-
-                            _ ->
-                                False
-                    )
-                |> List.map (\item -> item.id)
-
         squareQuantity =
             if flags.width < 475 then
                 flags.width // initialSquareWidthForMobile
@@ -189,14 +101,6 @@ init flags url key =
       , pageInTopArea = True
       , colorMode = Day
       , layoutMode = Grid
-      , sortedKeywordsWithQuantity = sortedKeywordsWithQuantity
-      , sortedPeopleWithQuantity = sortedPeopleWithQuantity
-      , sortedLinksWithQuantity = sortedLinksWithQuantity
-      , missingPeople = missingPeople
-      , missingKeywords = missingKeywords
-      , indexForPeople = indexBuilderforPeople sortedPeopleWithQuantity
-      , indexForKeywords = indexBuilder sortedKeywordsWithQuantity
-      , indexForLinks = indexForLinks sortedLinksWithQuantity
       }
     , Cmd.none
     )
@@ -388,47 +292,6 @@ update msg model =
 
 
 -- HELPERS
-
-
-keywordsWithQuantity :
-    List
-        { id : Keywords.Id
-        , maybeLookup : Maybe Keywords.Attributes
-        , quantity : Int
-        }
-keywordsWithQuantity =
-    Links.list
-        |> List.concatMap (\link -> link.keywords)
-        |> List.Extra.gatherEquals
-        |> List.map
-            (\item ->
-                { id = Tuple.first item
-                , quantity = List.length (Tuple.second item) + 1
-                , maybeLookup = List.head <| List.filter (\keyword -> Tuple.first item == keyword.id) Keywords.list
-                }
-            )
-
-
-peopleWithQuantity :
-    List
-        { id : People.Id
-        , maybeLookup : Maybe People.Attributes
-        , quantity : Int
-        }
-peopleWithQuantity =
-    Links.list
-        |> List.concatMap (\link -> link.authors)
-        |> List.Extra.gatherEquals
-        |> List.map
-            (\item ->
-                { id = Tuple.first item
-                , quantity = List.length (Tuple.second item) + 1
-                , maybeLookup = List.head <| List.filter (\person -> Tuple.first item == person.id) People.list
-                }
-            )
-
-
-
 -- SEARCH ENGINE
 --createMyStopWordFilter : Index.Model.Index doc -> ( Index.Model.Index doc, String -> Bool )
 
