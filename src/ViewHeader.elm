@@ -84,13 +84,13 @@ view model =
                     , Element.Border.rounded 5
                     , Element.Border.color <| Conf.c model .border
                     , paddingXY 8 8
-                    , Element.Font.size 24
+                    , Element.Font.size 20
                     , width fill
                     , Element.Background.color <| Conf.c model .background
                     ]
                     { onChange = Internal.Msg.ChangeFilter
                     , text = Internal.Utils.decode model.filter
-                    , placeholder = Just <| Element.Input.placeholder [ Element.Font.color <| Conf.c model .fontLight ] <| text "Filter"
+                    , placeholder = Just <| Element.Input.placeholder [ Element.Font.color <| Conf.c model .fontLight ] <| text "Filter by repository name, description or language"
                     , label = Element.Input.labelAbove [] none
                     }
                 , if String.length model.filter > 0 then

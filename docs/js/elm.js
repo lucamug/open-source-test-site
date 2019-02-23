@@ -16000,8 +16000,7 @@ var author$project$ViewBody$view = _List_fromArray(
 				mdgriffith$elm_ui$Element$Font$size(60)
 			]),
 		mdgriffith$elm_ui$Element$text('L')),
-		mdgriffith$elm_ui$Element$text('orem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suscipit nunc risus, aliquet viverra urna tincidunt a. Nulla non augue ipsum. Vestibulum eget rutrum purus, id dictum quam. Morbi lacinia purus nec pellentesque molestie. In id metus imperdiet, pulvinar libero ac, accumsan mauris. Nullam laoreet purus sed odio auctor venenatis. Aliquam commodo, mauris a maximus cursus, dui nisi iaculis diam, a varius velit enim sit amet nisi.'),
-		mdgriffith$elm_ui$Element$text('Suspendisse ac porttitor augue, et egestas sapien. Sed ac scelerisque ex, vel malesuada ex. Maecenas id mi pretium, blandit mi in, efficitur massa. Proin at sapien dui. Sed lectus diam, dapibus eu semper facilisis, semper nec odio. Sed sollicitudin orci a pulvinar consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.')
+		mdgriffith$elm_ui$Element$text('orem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suscipit nunc risus, aliquet viverra urna tincidunt a. Nulla non augue ipsum. Vestibulum eget rutrum purus, id dictum quam. Morbi lacinia purus nec pellentesque molestie. In id metus imperdiet, pulvinar libero ac, accumsan mauris. Nullam laoreet purus sed odio auctor venenatis. Aliquam commodo, mauris a maximus cursus, dui nisi iaculis diam, a varius velit enim sit amet nisi.')
 	]);
 var author$project$Conf$iconSize = 32;
 var author$project$Internal$Icon$Icon_PlusL = {$: 'Icon_PlusL'};
@@ -17928,7 +17927,7 @@ var author$project$ViewHeader$view = function (model) {
 											return $.border;
 										})),
 									A2(mdgriffith$elm_ui$Element$paddingXY, 8, 8),
-									mdgriffith$elm_ui$Element$Font$size(24),
+									mdgriffith$elm_ui$Element$Font$size(20),
 									mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
 									mdgriffith$elm_ui$Element$Background$color(
 									A2(
@@ -17954,7 +17953,7 @@ var author$project$ViewHeader$view = function (model) {
 														return $.fontLight;
 													}))
 											]),
-										mdgriffith$elm_ui$Element$text('Filter'))),
+										mdgriffith$elm_ui$Element$text('Filter by repository name, description or language'))),
 								text: author$project$Internal$Utils$decode(model.filter)
 							}),
 							(elm$core$String$length(model.filter) > 0) ? A2(
@@ -18005,11 +18004,61 @@ var author$project$ViewRepo$view = F3(
 		return mdgriffith$elm_ui$Element$text(
 			elm$core$String$fromInt(index + 1) + ('. ' + repo.name));
 	});
-var elm$core$Debug$toString = _Debug_toString;
 var mdgriffith$elm_ui$Internal$Model$FocusStyleOption = function (a) {
 	return {$: 'FocusStyleOption', a: a};
 };
 var mdgriffith$elm_ui$Element$focusStyle = mdgriffith$elm_ui$Internal$Model$FocusStyleOption;
+var elm$html$Html$Attributes$alt = elm$html$Html$Attributes$stringProperty('alt');
+var elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var mdgriffith$elm_ui$Element$image = F2(
+	function (attrs, _n0) {
+		var src = _n0.src;
+		var description = _n0.description;
+		var imageAttributes = A2(
+			elm$core$List$filter,
+			function (a) {
+				switch (a.$) {
+					case 'Width':
+						return true;
+					case 'Height':
+						return true;
+					default:
+						return false;
+				}
+			},
+			attrs);
+		return A4(
+			mdgriffith$elm_ui$Internal$Model$element,
+			mdgriffith$elm_ui$Internal$Model$asEl,
+			mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				elm$core$List$cons,
+				mdgriffith$elm_ui$Internal$Model$htmlClass(mdgriffith$elm_ui$Internal$Style$classes.imageContainer),
+				attrs),
+			mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[
+						A4(
+						mdgriffith$elm_ui$Internal$Model$element,
+						mdgriffith$elm_ui$Internal$Model$asEl,
+						mdgriffith$elm_ui$Internal$Model$NodeName('img'),
+						_Utils_ap(
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Internal$Model$Attr(
+									elm$html$Html$Attributes$src(src)),
+									mdgriffith$elm_ui$Internal$Model$Attr(
+									elm$html$Html$Attributes$alt(description))
+								]),
+							imageAttributes),
+						mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
+					])));
+	});
 var mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -18260,6 +18309,12 @@ var mdgriffith$elm_ui$Element$layoutWith = F3(
 				_Utils_ap(mdgriffith$elm_ui$Internal$Model$rootStyle, attrs)),
 			child);
 	});
+var mdgriffith$elm_ui$Element$moveDown = function (y) {
+	return A2(
+		mdgriffith$elm_ui$Internal$Model$TransformComponent,
+		mdgriffith$elm_ui$Internal$Flag$moveY,
+		mdgriffith$elm_ui$Internal$Model$MoveY(y));
+};
 var mdgriffith$elm_ui$Element$padding = function (x) {
 	return A2(
 		mdgriffith$elm_ui$Internal$Model$StyleClass,
@@ -18291,6 +18346,8 @@ var mdgriffith$elm_ui$Element$paragraph = F2(
 						attrs))),
 			mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
+var mdgriffith$elm_ui$Internal$Flag$fontAlignment = mdgriffith$elm_ui$Internal$Flag$flag(12);
+var mdgriffith$elm_ui$Element$Font$center = A2(mdgriffith$elm_ui$Internal$Model$Class, mdgriffith$elm_ui$Internal$Flag$fontAlignment, mdgriffith$elm_ui$Internal$Style$classes.textCenter);
 var mdgriffith$elm_ui$Element$Font$family = function (families) {
 	return A2(
 		mdgriffith$elm_ui$Internal$Model$StyleClass,
@@ -18304,6 +18361,13 @@ var mdgriffith$elm_ui$Element$Font$sansSerif = mdgriffith$elm_ui$Internal$Model$
 var mdgriffith$elm_ui$Element$Font$typeface = mdgriffith$elm_ui$Internal$Model$Typeface;
 var author$project$Internal$View$view = function (model) {
 	var route = A2(author$project$Internal$CommonRoute$fromUrl, author$project$Internal$Route$conf, model.url);
+	var attrsContainer = _List_fromArray(
+		[
+			mdgriffith$elm_ui$Element$width(
+			A2(mdgriffith$elm_ui$Element$maximum, author$project$Conf$maxWidth, mdgriffith$elm_ui$Element$fill)),
+			mdgriffith$elm_ui$Element$centerX,
+			A2(mdgriffith$elm_ui$Element$paddingXY, 10, 40)
+		]);
 	return {
 		body: _List_fromArray(
 			[
@@ -18369,8 +18433,82 @@ var author$project$Internal$View$view = function (model) {
 							mdgriffith$elm_ui$Element$el,
 							_List_fromArray(
 								[
-									mdgriffith$elm_ui$Element$padding(40)
+									mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
+									mdgriffith$elm_ui$Element$height(
+									mdgriffith$elm_ui$Element$px(190)),
+									mdgriffith$elm_ui$Element$clip
 								]),
+							A2(
+								mdgriffith$elm_ui$Element$image,
+								_List_fromArray(
+									[
+										mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill)
+									]),
+								{description: 'Coding...', src: 'img/background2.png'})),
+							A2(
+							mdgriffith$elm_ui$Element$column,
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$Font$size(30),
+									A2(mdgriffith$elm_ui$Element$paddingXY, 40, 40),
+									mdgriffith$elm_ui$Element$moveDown(40),
+									mdgriffith$elm_ui$Element$width(
+									A2(mdgriffith$elm_ui$Element$maximum, 600, mdgriffith$elm_ui$Element$fill)),
+									mdgriffith$elm_ui$Element$centerX,
+									mdgriffith$elm_ui$Element$spacing(10),
+									mdgriffith$elm_ui$Element$Font$center
+								]),
+							_List_fromArray(
+								[
+									A2(
+									mdgriffith$elm_ui$Element$row,
+									_List_fromArray(
+										[mdgriffith$elm_ui$Element$centerX]),
+									_List_fromArray(
+										[
+											A2(
+											mdgriffith$elm_ui$Element$el,
+											_List_fromArray(
+												[
+													mdgriffith$elm_ui$Element$Font$size(70)
+												]),
+											mdgriffith$elm_ui$Element$text('“')),
+											mdgriffith$elm_ui$Element$text('Contribute to society by')
+										])),
+									A2(
+									mdgriffith$elm_ui$Element$row,
+									_List_fromArray(
+										[
+											mdgriffith$elm_ui$Element$centerX,
+											mdgriffith$elm_ui$Element$moveUp(30)
+										]),
+									_List_fromArray(
+										[
+											mdgriffith$elm_ui$Element$text('creating value through innovation'),
+											A2(
+											mdgriffith$elm_ui$Element$el,
+											_List_fromArray(
+												[
+													mdgriffith$elm_ui$Element$Font$size(70),
+													mdgriffith$elm_ui$Element$moveDown(30)
+												]),
+											mdgriffith$elm_ui$Element$text('”'))
+										]))
+								])),
+							A2(
+							mdgriffith$elm_ui$Element$paragraph,
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$spacing(8),
+									mdgriffith$elm_ui$Element$width(
+									A2(mdgriffith$elm_ui$Element$maximum, 800, mdgriffith$elm_ui$Element$fill)),
+									mdgriffith$elm_ui$Element$padding(20),
+									mdgriffith$elm_ui$Element$centerX
+								]),
+							author$project$ViewBody$view),
+							A2(
+							mdgriffith$elm_ui$Element$el,
+							attrsContainer,
 							function () {
 								var _n0 = model.response;
 								if (_n0.$ === 'Just') {
@@ -18397,8 +18535,7 @@ var author$project$Internal$View$view = function (model) {
 											_List_Nil,
 											_List_fromArray(
 												[
-													mdgriffith$elm_ui$Element$text(
-													elm$core$Debug$toString(model.response))
+													mdgriffith$elm_ui$Element$text('Error')
 												]));
 									}
 								} else {
@@ -18406,17 +18543,13 @@ var author$project$Internal$View$view = function (model) {
 								}
 							}()),
 							A2(
-							mdgriffith$elm_ui$Element$paragraph,
+							mdgriffith$elm_ui$Element$el,
 							_List_fromArray(
 								[
-									mdgriffith$elm_ui$Element$width(
-									A2(mdgriffith$elm_ui$Element$maximum, author$project$Conf$maxWidth, mdgriffith$elm_ui$Element$fill)),
-									mdgriffith$elm_ui$Element$centerX,
-									mdgriffith$elm_ui$Element$paddingEach(
-									{bottom: 40, left: 40, right: 40, top: 10}),
-									mdgriffith$elm_ui$Element$spacing(8)
+									mdgriffith$elm_ui$Element$height(
+									mdgriffith$elm_ui$Element$px(60))
 								]),
-							author$project$ViewBody$view),
+							mdgriffith$elm_ui$Element$none),
 							author$project$ViewFooter$view(model)
 						])))
 			]),
