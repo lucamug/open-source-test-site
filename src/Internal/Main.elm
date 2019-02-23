@@ -2,20 +2,22 @@ module Internal.Main exposing (main)
 
 import Browser
 import Browser.Events
+import Internal.Init as Init
 import Internal.Model as Model exposing (Model)
 import Internal.Msg as Msg
 import Internal.Port as Port
 import Internal.Shared as Shared
+import Internal.Update as Update
 import Internal.View as View
 import Keyboard
 
 
-main : Program Shared.Flags Model Msg.Msg
+main : Program Msg.Flags Model Msg.Msg
 main =
     Browser.application
-        { init = Shared.init
+        { init = Init.init
         , view = View.view
-        , update = Shared.update
+        , update = Update.update
         , subscriptions =
             \model ->
                 Sub.batch

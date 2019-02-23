@@ -5115,22 +5115,10 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Internal$Msg$KeyUp = function (a) {
-	return {$: 'KeyUp', a: a};
-};
-var author$project$Internal$Msg$LinkClicked = function (a) {
-	return {$: 'LinkClicked', a: a};
-};
-var author$project$Internal$Msg$OnResize = F2(
-	function (a, b) {
-		return {$: 'OnResize', a: a, b: b};
+var elm$core$Basics$apR = F2(
+	function (x, f) {
+		return f(x);
 	});
-var author$project$Internal$Msg$PageInTopArea = function (a) {
-	return {$: 'PageInTopArea', a: a};
-};
-var author$project$Internal$Msg$UrlChanged = function (a) {
-	return {$: 'UrlChanged', a: a};
-};
 var elm$core$Array$branchFactor = 32;
 var elm$core$Array$Array_elm_builtin = F4(
 	function (a, b, c, d) {
@@ -5277,10 +5265,6 @@ var elm$core$Array$compressNodes = F2(
 				continue compressNodes;
 			}
 		}
-	});
-var elm$core$Basics$apR = F2(
-	function (x, f) {
-		return f(x);
 	});
 var elm$core$Basics$eq = _Utils_equal;
 var elm$core$Tuple$first = function (_n0) {
@@ -5606,8 +5590,6 @@ var elm$json$Json$Decode$errorToStringHelp = F2(
 			}
 		}
 	});
-var elm$json$Json$Decode$bool = _Json_decodeBool;
-var author$project$Internal$Port$pageInTopArea = _Platform_incomingPort('pageInTopArea', elm$json$Json$Decode$bool);
 var elm$json$Json$Decode$map2 = _Json_map2;
 var NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = elm$json$Json$Decode$map2(elm$core$Basics$apR);
 var elm$json$Json$Decode$andThen = _Json_andThen;
@@ -5672,6 +5654,7 @@ var author$project$Internal$Msg$Repo = F6(
 	function (name, description, fork, updated_at, homepage, language) {
 		return {description: description, fork: fork, homepage: homepage, language: language, name: name, updated_at: updated_at};
 	});
+var elm$json$Json$Decode$bool = _Json_decodeBool;
 var elm$json$Json$Decode$string = _Json_decodeString;
 var author$project$Internal$APIRequest$decoderRepo = A4(
 	NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$optional,
@@ -6963,7 +6946,7 @@ var author$project$Internal$Route$toString = function (route) {
 	return _Utils_eq(pieces, _List_Nil) ? '' : ('/' + A2(elm$core$String$join, '/', pieces));
 };
 var author$project$Internal$Route$conf = {disabled: author$project$Internal$Route$Empty, parser: author$project$Internal$Route$parser, toString: author$project$Internal$Route$toString};
-var author$project$Internal$Shared$init = F3(
+var author$project$Internal$Init$init = F3(
 	function (flags, url, key) {
 		var filter = function () {
 			var _n0 = A2(author$project$Internal$CommonRoute$fromUrl, author$project$Internal$Route$conf, url);
@@ -6978,6 +6961,23 @@ var author$project$Internal$Shared$init = F3(
 			{colorMode: author$project$Internal$Msg$Day, filter: filter, key: key, layoutMode: author$project$Internal$Msg$Grid, pageInTopArea: true, response: elm$core$Maybe$Nothing, url: url, width: flags.width},
 			author$project$Internal$APIRequest$request);
 	});
+var author$project$Internal$Msg$KeyUp = function (a) {
+	return {$: 'KeyUp', a: a};
+};
+var author$project$Internal$Msg$LinkClicked = function (a) {
+	return {$: 'LinkClicked', a: a};
+};
+var author$project$Internal$Msg$OnResize = F2(
+	function (a, b) {
+		return {$: 'OnResize', a: a, b: b};
+	});
+var author$project$Internal$Msg$PageInTopArea = function (a) {
+	return {$: 'PageInTopArea', a: a};
+};
+var author$project$Internal$Msg$UrlChanged = function (a) {
+	return {$: 'UrlChanged', a: a};
+};
+var author$project$Internal$Port$pageInTopArea = _Platform_incomingPort('pageInTopArea', elm$json$Json$Decode$bool);
 var author$project$Internal$CommonRoute$toStringAndHash = F2(
 	function (conf, route) {
 		var string = conf.toString(route);
@@ -10569,7 +10569,7 @@ var elm$url$Url$fromString = function (str) {
 		A2(elm$core$String$dropLeft, 8, str)) : elm$core$Maybe$Nothing);
 };
 var elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
-var author$project$Internal$Shared$commandToCloseModal = function (_n0) {
+var author$project$Internal$Update$commandToCloseModal = function (_n0) {
 	var filter = _n0.filter;
 	var key = _n0.key;
 	return A2(
@@ -10640,7 +10640,7 @@ var ohanhi$keyboard$Keyboard$rawValue = function (_n0) {
 	var key = _n0.a;
 	return key;
 };
-var author$project$Internal$Shared$update = F2(
+var author$project$Internal$Update$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'GotData':
@@ -10691,12 +10691,12 @@ var author$project$Internal$Shared$update = F2(
 				var data = msg.a;
 				return (data.id1 === 'cover') ? _Utils_Tuple2(
 					model,
-					author$project$Internal$Shared$commandToCloseModal(model)) : _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
+					author$project$Internal$Update$commandToCloseModal(model)) : _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 			case 'KeyUp':
 				var key = msg.a;
 				return (ohanhi$keyboard$Keyboard$rawValue(key) === 'Escape') ? _Utils_Tuple2(
 					model,
-					author$project$Internal$Shared$commandToCloseModal(model)) : _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
+					author$project$Internal$Update$commandToCloseModal(model)) : _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 			case 'PageInTopArea':
 				var state = msg.a;
 				return _Utils_Tuple2(
@@ -18628,7 +18628,7 @@ var ohanhi$keyboard$Keyboard$ups = function (toMsg) {
 };
 var author$project$Internal$Main$main = elm$browser$Browser$application(
 	{
-		init: author$project$Internal$Shared$init,
+		init: author$project$Internal$Init$init,
 		onUrlChange: author$project$Internal$Msg$UrlChanged,
 		onUrlRequest: author$project$Internal$Msg$LinkClicked,
 		subscriptions: function (model) {
@@ -18640,7 +18640,7 @@ var author$project$Internal$Main$main = elm$browser$Browser$application(
 						ohanhi$keyboard$Keyboard$ups(author$project$Internal$Msg$KeyUp)
 					]));
 		},
-		update: author$project$Internal$Shared$update,
+		update: author$project$Internal$Update$update,
 		view: author$project$Internal$View$view
 	});
 _Platform_export({'Internal':{'Main':{'init':author$project$Internal$Main$main(

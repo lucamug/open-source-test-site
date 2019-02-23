@@ -9,19 +9,6 @@ import Json.Decode
 import Json.Decode.Pipeline
 
 
-
-{-
-   type alias Something =
-       { mamma : List ComplexType
-       }
-
-   decodeSomething : Json.Decode.Decoder Something
-   decodeSomething =
-       Json.Decode.Pipeline.decode Something
-           |> Json.Decode.Pipeline.required "mamma" (Json.Decode.list decodeComplexType)
--}
-
-
 request : Cmd Msg.Msg
 request =
     "test-api/repos.json"

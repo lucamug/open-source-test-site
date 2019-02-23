@@ -1,6 +1,7 @@
 module Internal.Msg exposing
     ( ClickData
     , ColorMode(..)
+    , Flags
     , LayoutMode(..)
     , Msg(..)
     , Repo
@@ -18,6 +19,11 @@ import Url
 
 
 -- OTHER TYPES
+
+
+type alias Flags =
+    { width : Int
+    }
 
 
 type ColorMode
