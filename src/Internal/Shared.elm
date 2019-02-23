@@ -318,7 +318,7 @@ indexForLinks list =
                     , ( \item -> item.lookup.description, 1.0 )
                     ]
                 , listFields = []
-                , indexType = "Elm Resources - Customized Stop Words v1"
+                , indexType = "Rakuten Open Source - Customized Stop Words v1"
                 , initialTransformFactories = Index.Defaults.defaultInitialTransformFactories
                 , transformFactories = Index.Defaults.defaultTransformFactories
                 , filterFactories = [ createMyStopWordFilter ]
@@ -341,7 +341,7 @@ indexBuilderforPeople list =
                     , ( \item -> item.lookup.github, 1.0 )
                     ]
                 , listFields = []
-                , indexType = "Elm Resources - Customized Stop Words v1"
+                , indexType = "Rakuten Open Source - Customized Stop Words v1"
                 , initialTransformFactories = Index.Defaults.defaultInitialTransformFactories
                 , transformFactories = Index.Defaults.defaultTransformFactories
                 , filterFactories = [ createMyStopWordFilter ]
@@ -362,7 +362,7 @@ indexBuilder list =
                     [ ( \item -> item.lookup.name, 5.0 )
                     ]
                 , listFields = []
-                , indexType = "Elm Resources - Customized Stop Words v1"
+                , indexType = "Rakuten Open Source - Customized Stop Words v1"
                 , initialTransformFactories = Index.Defaults.defaultInitialTransformFactories
                 , transformFactories = Index.Defaults.defaultTransformFactories
                 , filterFactories = [ createMyStopWordFilter ]

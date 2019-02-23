@@ -44,6 +44,18 @@ elementColorToElmColor elementColor =
 -}
 
 
+css =
+    """
+.animatedItem {
+    transition: all 100ms linear;
+}
+.animatedItem:hover {
+    transform: scale(1.7, 1.7);
+    z-index: 1;
+}
+"""
+
+
 view : Model -> Browser.Document Msg
 view model =
     let
@@ -64,37 +76,39 @@ view model =
             }
             [ width fill
             , Font.family
-                [ Font.typeface "Noto Sans Japanese"
+                [ Font.typeface "Noto Sans JP"
                 , Font.sansSerif
                 ]
             , Font.color <| Conf.c model .font
-            , inFront <| Header.view model
+            , Font.size 18
             , Background.color <| Conf.c model .background
             , htmlAttribute <| Html.Attributes.style "transition" "background 1000ms linear"
+            , inFront <| Header.view model
             ]
           <|
             column
-                [ paddingEach { top = Conf.headerHeight + 20, right = 20, bottom = 20, left = 20 }
+                [ paddingEach { top = Conf.headerHeight + 20, right = 0, bottom = 0, left = 0 }
                 , spacing 10
-                , width (fill |> maximum 800)
-                , centerX
-                , Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
+                , width fill
+
+                --, Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
                 ]
             <|
-                [ html <|
-                    Html.node "style"
-                        []
-                        [ Html.text <| """
-                        .animatedItem {
-                            transition: all 100ms linear;
-                        }
-                        .animatedItem:hover {
-                            transform: scale(1.7, 1.7);
-                            z-index: 1;
-                        }
-                        """
+                [ html <| Html.node "style" [] [ Html.text <| css ]
+                , paragraph
+                    [ width (fill |> maximum Conf.maxWidth)
+                    , centerX
+                    , padding 40
+                    ]
+                    [ el
+                        [ alignLeft
+                        , padding 10
+                        , Font.size 60
                         ]
-                , Footer.view
+                        (text "S")
+                    , text "asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs asbfs fdfdsg5terweh kitrgef dfs."
+                    ]
+                , Footer.view model
                 ]
         ]
     }

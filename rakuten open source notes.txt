@@ -1,0 +1,20 @@
+
+https://webservice.rakuten.co.jp/
+
+https://github.com/rakutentech
+https://rakutentech.github.io/
+
+https://github.com/rakuten-frontend
+https://github.com/rakuten-ws/
+https://github.com/rakuten-nlp
+https://github.com/Rakuten-Marketing
+
+curl -i "https://api.github.com/orgs/rakutentech/repos"
+
+curl -i "https://api.github.com/orgs/rakutentech/repos"
+
+https://api.github.com/orgs/rakutentech/repos?type=source&per_page=100
+
+type=source
+
+curl -i "https://api.github.com/repos/vmg/redcarpet/issues?state=closed"

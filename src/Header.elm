@@ -50,7 +50,8 @@ view model =
         ]
     <|
         row
-            [ width fill
+            [ width (fill |> maximum Conf.maxWidth)
+            , centerX
             , spacing 40
             , htmlAttribute <| Html.Attributes.style "transition" "padding 200ms linear"
             , padding <|
@@ -73,7 +74,18 @@ view model =
                     , htmlAttribute <| Html.Attributes.style "transition" "font 200ms linear"
                     ]
                 <|
-                    text "Elm Resources"
+                    row [ spacing 7 ]
+                        [ el [] <| Icon.icon Icon.Logo_Rakuten (Conf.c model .logo) 30
+                        , el
+                            [ Font.color <| Conf.c model .logo
+                            , Font.size 26
+                            , Font.letterSpacing -1
+                            , Font.bold
+                            , moveUp 4
+                            ]
+                          <|
+                            text "Open Source"
+                        ]
 
               else
                 none
