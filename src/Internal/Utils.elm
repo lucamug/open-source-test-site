@@ -1,4 +1,4 @@
-module Utils exposing
+module Internal.Utils exposing
     ( decode
     , encode
     )

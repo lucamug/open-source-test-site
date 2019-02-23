@@ -5,7 +5,7 @@
         blue: "background: #77d7ef; color: white",
     };
     console.info('%c Made with %c ❤ %c and %c Elm %c in Rakuten ', color.default, color.red, color.default, color.blue, color.default);
-    let headerHeight = 120;
+    let headerHeight = 10;
     let pageInTopArea = pageYOffset <= headerHeight;
     let node = w.document.createElement('div');
     w.document.body.appendChild(node);

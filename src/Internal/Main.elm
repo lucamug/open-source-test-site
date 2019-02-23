@@ -4,8 +4,8 @@ import Browser
 import Browser.Events
 import Internal.Port as Port
 import Internal.Shared as Shared
+import Internal.View as View
 import Keyboard
-import View
 
 
 main : Program Shared.Flags Shared.Model Shared.Msg

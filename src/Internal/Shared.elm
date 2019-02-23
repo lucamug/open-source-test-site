@@ -15,11 +15,12 @@ import Browser.Navigation
 import ElmTextSearch
 import Index.Defaults
 import Internal.CommonRoute as CommonRoute
+import Internal.Route as Route
+import Internal.StopWordFilter as StopWordFilter
+import Internal.Utils as Utils
 import Keyboard
-import Route
 import StopWordFilter
 import Url
-import Utils
 
 
 
@@ -43,7 +44,6 @@ initialSquareWidthForMobile =
 type ColorMode
     = Day
     | Night
-    | Green
 
 
 type LayoutMode
@@ -294,17 +294,6 @@ update msg model =
 --createMyStopWordFilter : Index.Model.Index doc -> ( Index.Model.Index doc, String -> Bool )
 
 
-createMyStopWordFilter =
-    {- The type signature for this function would be:
-
-       createMyStopWordFilter : Index.Model.Index doc -> ( Index.Model.Index doc, String -> Bool )
-
-       but these types are not exposed.
-    -}
-    StopWordFilter.createFilterFunc
-        []
-
-
 indexForLinks :
     List { b | lookup : { a | description : String, name : String } }
     -> ( ElmTextSearch.Index { b | lookup : { a | description : String, name : String } }, List ( Int, String ) )
@@ -321,7 +310,7 @@ indexForLinks list =
                 , indexType = "Rakuten Open Source - Customized Stop Words v1"
                 , initialTransformFactories = Index.Defaults.defaultInitialTransformFactories
                 , transformFactories = Index.Defaults.defaultTransformFactories
-                , filterFactories = [ createMyStopWordFilter ]
+                , filterFactories = [ StopWordFilter.createMyStopWordFilter ]
                 }
     in
     ElmTextSearch.addDocs list index
@@ -344,7 +333,7 @@ indexBuilderforPeople list =
                 , indexType = "Rakuten Open Source - Customized Stop Words v1"
                 , initialTransformFactories = Index.Defaults.defaultInitialTransformFactories
                 , transformFactories = Index.Defaults.defaultTransformFactories
-                , filterFactories = [ createMyStopWordFilter ]
+                , filterFactories = [ StopWordFilter.createMyStopWordFilter ]
                 }
     in
     ElmTextSearch.addDocs list index
@@ -365,7 +354,7 @@ indexBuilder list =
                 , indexType = "Rakuten Open Source - Customized Stop Words v1"
                 , initialTransformFactories = Index.Defaults.defaultInitialTransformFactories
                 , transformFactories = Index.Defaults.defaultTransformFactories
-                , filterFactories = [ createMyStopWordFilter ]
+                , filterFactories = [ StopWordFilter.createMyStopWordFilter ]
                 }
     in
     ElmTextSearch.addDocs list index

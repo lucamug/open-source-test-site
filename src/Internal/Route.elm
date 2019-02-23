@@ -1,4 +1,4 @@
-module Route exposing
+module Internal.Route exposing
     ( Route(..)
     , conf
     , routeToRestoreFilter

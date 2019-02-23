@@ -1,4 +1,4 @@
-module Icon exposing
+module Internal.Icon exposing
     ( Icon(..)
     , icon
     , iconViewBoxAndPaths

@@ -9,11 +9,11 @@ import Element.Font as Font
 import Element.Input as Input
 import Html exposing (Html)
 import Html.Attributes
-import Icon
 import Internal.CommonRoute as CommonRoute
+import Internal.Icon as Icon
 import Internal.Shared as Shared exposing (Model, Msg(..))
+import Internal.Utils as Utils
 import Svg.Attributes as SA
-import Utils
 
 
 
@@ -28,38 +28,29 @@ import Utils
 
 view : Model -> Element Msg
 view model =
-    let
-        iconSize =
-            32
-    in
     el
-        [ height <|
-            px
-                (if model.pageInTopArea then
-                    Conf.headerHeight
+        ([ clip
+         , width fill
+         , Background.color <| Conf.c model .background
+         , htmlAttribute <| Html.Attributes.style "transition" "all 200ms linear"
+         ]
+            ++ (if model.pageInTopArea then
+                    [ height <| px Conf.headerHeight ]
 
-                 else
-                    Conf.headerHeight - 20
-                )
-        , clip
-        , width fill
-        , Background.color <| Conf.c model .background
-        , Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
-        , htmlAttribute <| Html.Attributes.style "transition" "height 200ms linear"
-        , htmlAttribute <| Html.Attributes.style "transition" "background 1000ms linear"
-        ]
+                else
+                    [ height <| px Conf.headerHeightSmall
+                    , Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
+                    ]
+               )
+        )
     <|
         row
             [ width (fill |> maximum Conf.maxWidth)
             , centerX
+            , centerY
             , spacing 40
             , htmlAttribute <| Html.Attributes.style "transition" "padding 200ms linear"
-            , padding <|
-                if model.pageInTopArea then
-                    20
-
-                else
-                    10
+            , paddingXY 40 0
             ]
             [ if model.width > 700 then
                 el
@@ -89,14 +80,15 @@ view model =
 
               else
                 none
-            , row [ width fill, spacing 10 ]
+            , row [ width fill, spacing 40 ]
                 [ Input.text
-                    [ Border.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
+                    [ Border.width 1
+                    , Border.rounded 5
+                    , Border.color <| Conf.c model .border
                     , paddingXY 8 8
                     , Font.size 24
                     , width fill
                     , Background.color <| Conf.c model .background
-                    , Border.color <| Conf.c model .background
                     ]
                     { onChange = Shared.ChangeFilter
                     , text = Utils.decode model.filter
@@ -105,16 +97,12 @@ view model =
                     }
                 , if String.length model.filter > 0 then
                     Input.button []
-                        { label = Icon.icon Icon.Icon_Close (Conf.c model .font) iconSize
+                        { label = Icon.icon Icon.Icon_Close (Conf.c model .font) Conf.iconSize
                         , onPress = Just <| ChangeFilter ""
                         }
 
                   else
                     none
-                , Input.button []
-                    { label = Icon.icon Icon.Icon_PlusL (Conf.c model .font) iconSize
-                    , onPress = Just ToggleColorMode
-                    }
                 , Input.button []
                     { label =
                         Icon.icon
@@ -126,20 +114,8 @@ view model =
                                     Icon.Icon_Grid
                             )
                             (Conf.c model .font)
-                            iconSize
+                            Conf.iconSize
                     , onPress = Just ToggleLayoutMode
-                    }
-                , Input.button []
-                    { label = Icon.icon Icon.Icon_Plus (Conf.c model .font) iconSize
-                    , onPress = Just DecreaseSquareQuantity
-                    }
-                , Input.button []
-                    { label = Icon.icon Icon.Icon_Minus (Conf.c model .font) iconSize
-                    , onPress = Just IncreaseSquareQuantity
-                    }
-                , newTabLink []
-                    { label = Icon.icon Icon.Icon_Github (Conf.c model .font) iconSize
-                    , url = "https://github.com/lucamug/elm-resources"
                     }
                 ]
             ]
