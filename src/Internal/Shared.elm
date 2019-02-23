@@ -1,10 +1,5 @@
 module Internal.Shared exposing
-    ( ClickData
-    , ColorMode(..)
-    , Flags
-    , LayoutMode(..)
-    , Model
-    , Msg(..)
+    ( Flags
     , init
     , resultSearch
     , update
@@ -14,7 +9,10 @@ import Browser
 import Browser.Navigation
 import ElmTextSearch
 import Index.Defaults
+import Internal.APIRequest as APIRequest
 import Internal.CommonRoute as CommonRoute
+import Internal.Model as Model exposing (Model)
+import Internal.Msg as Msg exposing (Msg(..))
 import Internal.Route as Route
 import Internal.StopWordFilter as StopWordFilter
 import Internal.Utils as Utils
@@ -24,64 +22,12 @@ import Url
 
 
 
--- CONSTANTS
-
-
-initialSquareWidth : Int
-initialSquareWidth =
-    56
-
-
-initialSquareWidthForMobile : Int
-initialSquareWidthForMobile =
-    50
-
-
-
--- TYPES
-
-
-type ColorMode
-    = Day
-    | Night
-
-
-type LayoutMode
-    = List
-    | Grid
-
-
-
--- MODEL
-
-
-type alias Model =
-    { url : Url.Url
-    , key : Browser.Navigation.Key
-    , filter : String
-    , squareQuantity : Int
-    , squareWidth : Float
-    , width : Int
-    , pageInTopArea : Bool
-    , colorMode : ColorMode
-    , layoutMode : LayoutMode
-    }
-
-
-
 -- INIT
 
 
 init : Flags -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
-        squareQuantity =
-            if flags.width < 475 then
-                flags.width // initialSquareWidthForMobile
-
-            else
-                flags.width // initialSquareWidth
-
         filter =
             case CommonRoute.fromUrl Route.conf url of
                 Route.Filter filter_ ->
@@ -93,14 +39,13 @@ init flags url key =
     ( { url = url
       , key = key
       , filter = filter
-      , squareQuantity = squareQuantity
-      , squareWidth = toFloat flags.width / toFloat squareQuantity
       , width = flags.width
       , pageInTopArea = True
-      , colorMode = Day
-      , layoutMode = Grid
+      , colorMode = Msg.Day
+      , layoutMode = Msg.Grid
+      , response = Nothing
       }
-    , Cmd.none
+    , APIRequest.request
     )
 
 
@@ -115,29 +60,6 @@ type alias Flags =
 
 
 -- UPDATE
-
-
-type alias ClickData =
-    { id1 : String
-    , id2 : String
-    , id3 : String
-    , id4 : String
-    , id5 : String
-    }
-
-
-type Msg
-    = Click ClickData
-    | OnResize Int Int
-    | ToggleColorMode
-    | ToggleLayoutMode
-    | IncreaseSquareQuantity
-    | DecreaseSquareQuantity
-    | ChangeFilter String
-    | PageInTopArea Bool
-    | KeyUp Keyboard.RawKey
-    | LinkClicked Browser.UrlRequest
-    | UrlChanged Url.Url
 
 
 commandToCloseModal :
@@ -155,6 +77,9 @@ commandToCloseModal { filter, key } =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        GotData response ->
+            ( { model | response = Just response }, Cmd.none )
+
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
@@ -207,56 +132,17 @@ update msg model =
             ( { model | pageInTopArea = state }, Cmd.none )
 
         OnResize x _ ->
-            let
-                newQuantity =
-                    x // floor model.squareWidth
-
-                newQuantity_ =
-                    if newQuantity > 1 then
-                        newQuantity
-
-                    else
-                        1
-            in
-            ( { model | width = x, squareQuantity = newQuantity_ }, Cmd.none )
-
-        IncreaseSquareQuantity ->
-            let
-                newQuantity =
-                    model.squareQuantity + 1
-            in
-            ( { model
-                | squareQuantity = newQuantity
-                , squareWidth = toFloat model.width / toFloat newQuantity
-              }
-            , Cmd.none
-            )
-
-        DecreaseSquareQuantity ->
-            let
-                newQuantity =
-                    if model.squareQuantity > 1 then
-                        model.squareQuantity - 1
-
-                    else
-                        model.squareQuantity
-            in
-            ( { model
-                | squareQuantity = newQuantity
-                , squareWidth = toFloat model.width / toFloat newQuantity
-              }
-            , Cmd.none
-            )
+            ( { model | width = x }, Cmd.none )
 
         ToggleColorMode ->
             ( { model
                 | colorMode =
                     case model.colorMode of
-                        Day ->
-                            Night
+                        Msg.Day ->
+                            Msg.Night
 
                         _ ->
-                            Day
+                            Msg.Day
               }
             , Cmd.none
             )
@@ -265,11 +151,11 @@ update msg model =
             ( { model
                 | layoutMode =
                     case model.layoutMode of
-                        Grid ->
-                            List
+                        Msg.Grid ->
+                            Msg.List
 
                         _ ->
-                            Grid
+                            Msg.Grid
               }
             , Cmd.none
             )

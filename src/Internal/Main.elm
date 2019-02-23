@@ -2,13 +2,15 @@ module Internal.Main exposing (main)
 
 import Browser
 import Browser.Events
+import Internal.Model as Model exposing (Model)
+import Internal.Msg as Msg
 import Internal.Port as Port
 import Internal.Shared as Shared
 import Internal.View as View
 import Keyboard
 
 
-main : Program Shared.Flags Shared.Model Shared.Msg
+main : Program Shared.Flags Model Msg.Msg
 main =
     Browser.application
         { init = Shared.init
@@ -17,10 +19,10 @@ main =
         , subscriptions =
             \model ->
                 Sub.batch
-                    [ Browser.Events.onResize Shared.OnResize
-                    , Port.pageInTopArea Shared.PageInTopArea
-                    , Keyboard.ups Shared.KeyUp
+                    [ Browser.Events.onResize Msg.OnResize
+                    , Port.pageInTopArea Msg.PageInTopArea
+                    , Keyboard.ups Msg.KeyUp
                     ]
-        , onUrlRequest = Shared.LinkClicked
-        , onUrlChange = Shared.UrlChanged
+        , onUrlRequest = Msg.LinkClicked
+        , onUrlChange = Msg.UrlChanged
         }

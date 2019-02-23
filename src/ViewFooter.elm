@@ -1,4 +1,4 @@
-module Footer exposing (view)
+module ViewFooter exposing (view)
 
 import Color as ElmColor
 import Conf
@@ -10,7 +10,9 @@ import Element.Input as Input
 import Html exposing (Html)
 import Internal.CommonRoute as CommonRoute
 import Internal.Icon as Icon
-import Internal.Shared as Shared exposing (Model, Msg(..))
+import Internal.Model as Model exposing (Model)
+import Internal.Msg as Msg exposing (Msg(..))
+import Internal.Shared as Shared
 import Svg.Attributes as SA
 
 

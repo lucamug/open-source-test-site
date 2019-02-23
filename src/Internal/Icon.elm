@@ -14,7 +14,9 @@ import Element.Font as Font
 import Element.Input as Input
 import Html exposing (Html)
 import Internal.CommonRoute as CommonRoute
-import Internal.Shared as Shared exposing (Model, Msg(..))
+import Internal.Model as Model exposing (Model)
+import Internal.Msg as Msg exposing (Msg(..))
+import Internal.Shared as Shared
 import Svg
 import Svg.Attributes as SA
 

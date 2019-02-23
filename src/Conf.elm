@@ -3,6 +3,7 @@ module Conf exposing
     , borderSize
     , c
     , colorPalette
+    , css
     , headerHeight
     , headerHeightSmall
     , iconSize
@@ -17,12 +18,20 @@ import Element.Font as Font
 import Element.Input as Input
 import Html exposing (Html)
 import Internal.CommonRoute as CommonRoute
-import Internal.Shared as Shared exposing (Model, Msg(..))
+import Internal.Model as Model exposing (Model)
+import Internal.Msg as Msg exposing (Msg(..))
+import Internal.Shared as Shared
 import Svg.Attributes as SA
 
 
 
--- CONSTANTS
+{-
+    ██████  ██████  ███    ██ ███████
+   ██      ██    ██ ████   ██ ██
+   ██      ██    ██ ██ ██  ██ █████
+   ██      ██    ██ ██  ██ ██ ██
+    ██████  ██████  ██   ████ ██
+-}
 
 
 borderSize : Int
@@ -52,6 +61,29 @@ iconSize =
 
 
 {-
+    ██████ ███████ ███████
+   ██      ██      ██
+   ██      ███████ ███████
+   ██           ██      ██
+    ██████ ███████ ███████
+-}
+
+
+css : String
+css =
+    """
+.animatedItem {
+    transition: all 100ms linear;
+}
+.animatedItem:hover {
+    transform: scale(1.7, 1.7);
+    z-index: 1;
+}
+"""
+
+
+
+{-
     ██████  ██████  ██       ██████  ██████  ███████
    ██      ██    ██ ██      ██    ██ ██   ██ ██
    ██      ██    ██ ██      ██    ██ ██████  ███████
@@ -72,10 +104,10 @@ type alias ColorPalette =
     }
 
 
-colorPalette : Shared.ColorMode -> ColorPalette
+colorPalette : Msg.ColorMode -> ColorPalette
 colorPalette colorMode =
     case colorMode of
-        Shared.Night ->
+        Msg.Night ->
             { background = rgb 0.2 0.2 0.2
             , font = rgb 0.8 0.8 0.8
             , fontLight = rgb 0.5 0.5 0.5
@@ -86,7 +118,7 @@ colorPalette colorMode =
             , logo = rgb255 200 200 200
             }
 
-        Shared.Day ->
+        Msg.Day ->
             { background = rgb 1 1 1
             , font = rgb 0.3 0.3 0.3
             , fontLight = rgb 0.4 0.4 0.4

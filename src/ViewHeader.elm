@@ -1,4 +1,4 @@
-module Header exposing (view)
+module ViewHeader exposing (view)
 
 import Color as ElmColor
 import Conf
@@ -11,7 +11,9 @@ import Html exposing (Html)
 import Html.Attributes
 import Internal.CommonRoute as CommonRoute
 import Internal.Icon as Icon
-import Internal.Shared as Shared exposing (Model, Msg(..))
+import Internal.Model as Model exposing (Model)
+import Internal.Msg as Msg exposing (Msg(..))
+import Internal.Shared as Shared
 import Internal.Utils as Utils
 import Svg.Attributes as SA
 
@@ -90,7 +92,7 @@ view model =
                     , width fill
                     , Background.color <| Conf.c model .background
                     ]
-                    { onChange = Shared.ChangeFilter
+                    { onChange = Msg.ChangeFilter
                     , text = Utils.decode model.filter
                     , placeholder = Just <| Input.placeholder [ Font.color <| Conf.c model .fontLight ] <| text "Filter"
                     , label = Input.labelAbove [] none
@@ -107,10 +109,10 @@ view model =
                     { label =
                         Icon.icon
                             (case model.layoutMode of
-                                Shared.Grid ->
+                                Msg.Grid ->
                                     Icon.Icon_Row
 
-                                Shared.List ->
+                                Msg.List ->
                                     Icon.Icon_Grid
                             )
                             (Conf.c model .font)

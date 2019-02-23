@@ -3,7 +3,14 @@ module Internal.Utils exposing
     , encode
     )
 
+import Color as ElmColor
+import Element
 import Url
+
+
+elementColorToElmColor : Element.Color -> ElmColor.Color
+elementColorToElmColor elementColor =
+    ElmColor.fromRgba <| Element.toRgb elementColor
 
 
 encode : String -> String
