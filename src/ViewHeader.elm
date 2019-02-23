@@ -1,21 +1,17 @@
 module ViewHeader exposing (view)
 
-import Color as ElmColor
 import Conf
 import Element exposing (..)
-import Element.Background as Background
-import Element.Border as Border
-import Element.Font as Font
-import Element.Input as Input
+import Element.Background
+import Element.Border
+import Element.Font
+import Element.Input
 import Html exposing (Html)
 import Html.Attributes
-import Internal.CommonRoute as CommonRoute
-import Internal.Icon as Icon
-import Internal.Model as Model exposing (Model)
-import Internal.Msg as Msg exposing (Msg(..))
-import Internal.Shared as Shared
-import Internal.Utils as Utils
-import Svg.Attributes as SA
+import Internal.Icon
+import Internal.Model exposing (Model)
+import Internal.Msg exposing (Msg(..))
+import Internal.Utils
 
 
 
@@ -33,7 +29,7 @@ view model =
     el
         ([ clip
          , width fill
-         , Background.color <| Conf.c model .background
+         , Element.Background.color <| Conf.c model .background
          , htmlAttribute <| Html.Attributes.style "transition" "all 200ms linear"
          ]
             ++ (if model.pageInTopArea then
@@ -41,7 +37,7 @@ view model =
 
                 else
                     [ height <| px Conf.headerHeightSmall
-                    , Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
+                    , Element.Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
                     ]
                )
         )
@@ -56,7 +52,7 @@ view model =
             ]
             [ if model.width > 700 then
                 el
-                    [ Font.size
+                    [ Element.Font.size
                         (if model.pageInTopArea then
                             40
 
@@ -68,12 +64,12 @@ view model =
                     ]
                 <|
                     row [ spacing 7 ]
-                        [ el [] <| Icon.icon Icon.Logo_Rakuten (Conf.c model .logo) 30
+                        [ el [] <| Internal.Icon.icon Internal.Icon.Logo_Rakuten (Conf.c model .logo) 30
                         , el
-                            [ Font.color <| Conf.c model .logo
-                            , Font.size 26
-                            , Font.letterSpacing -1
-                            , Font.bold
+                            [ Element.Font.color <| Conf.c model .logo
+                            , Element.Font.size 26
+                            , Element.Font.letterSpacing -1
+                            , Element.Font.bold
                             , moveUp 4
                             ]
                           <|
@@ -83,37 +79,37 @@ view model =
               else
                 none
             , row [ width fill, spacing 40 ]
-                [ Input.text
-                    [ Border.width 1
-                    , Border.rounded 5
-                    , Border.color <| Conf.c model .border
+                [ Element.Input.text
+                    [ Element.Border.width 1
+                    , Element.Border.rounded 5
+                    , Element.Border.color <| Conf.c model .border
                     , paddingXY 8 8
-                    , Font.size 24
+                    , Element.Font.size 24
                     , width fill
-                    , Background.color <| Conf.c model .background
+                    , Element.Background.color <| Conf.c model .background
                     ]
-                    { onChange = Msg.ChangeFilter
-                    , text = Utils.decode model.filter
-                    , placeholder = Just <| Input.placeholder [ Font.color <| Conf.c model .fontLight ] <| text "Filter"
-                    , label = Input.labelAbove [] none
+                    { onChange = Internal.Msg.ChangeFilter
+                    , text = Internal.Utils.decode model.filter
+                    , placeholder = Just <| Element.Input.placeholder [ Element.Font.color <| Conf.c model .fontLight ] <| text "Filter"
+                    , label = Element.Input.labelAbove [] none
                     }
                 , if String.length model.filter > 0 then
-                    Input.button []
-                        { label = Icon.icon Icon.Icon_Close (Conf.c model .font) Conf.iconSize
+                    Element.Input.button []
+                        { label = Internal.Icon.icon Internal.Icon.Icon_Close (Conf.c model .font) Conf.iconSize
                         , onPress = Just <| ChangeFilter ""
                         }
 
                   else
                     none
-                , Input.button []
+                , Element.Input.button []
                     { label =
-                        Icon.icon
+                        Internal.Icon.icon
                             (case model.layoutMode of
-                                Msg.Grid ->
-                                    Icon.Icon_Row
+                                Internal.Msg.Grid ->
+                                    Internal.Icon.Icon_Row
 
-                                Msg.List ->
-                                    Icon.Icon_Grid
+                                Internal.Msg.List ->
+                                    Internal.Icon.Icon_Grid
                             )
                             (Conf.c model .font)
                             Conf.iconSize

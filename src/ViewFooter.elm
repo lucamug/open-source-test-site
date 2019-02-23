@@ -1,19 +1,14 @@
 module ViewFooter exposing (view)
 
-import Color as ElmColor
 import Conf
 import Element exposing (..)
-import Element.Background as Background
-import Element.Border as Border
-import Element.Font as Font
-import Element.Input as Input
+import Element.Background
+import Element.Font
+import Element.Input
 import Html exposing (Html)
-import Internal.CommonRoute as CommonRoute
-import Internal.Icon as Icon
-import Internal.Model as Model exposing (Model)
-import Internal.Msg as Msg exposing (Msg(..))
-import Internal.Shared as Shared
-import Svg.Attributes as SA
+import Internal.Icon
+import Internal.Model exposing (Model)
+import Internal.Msg exposing (Msg(..))
 
 
 
@@ -31,10 +26,10 @@ view model =
     el
         [ centerX
         , paddingXY 20 60
-        , Background.color <| Conf.c model .footerBackground
+        , Element.Background.color <| Conf.c model .footerBackground
         , width fill
-        , Font.color <| Conf.c model .footerFont
-        , Font.size 15
+        , Element.Font.color <| Conf.c model .footerFont
+        , Element.Font.size 15
         ]
     <|
         column
@@ -45,23 +40,23 @@ view model =
             [ row
                 [ width fill ]
                 [ column [ spacing 30 ]
-                    [ el [ Font.bold ] <| text "GitHub"
-                    , column [ spacing 12, Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
+                    [ el [ Element.Font.bold ] <| text "GitHub"
+                    , column [ spacing 12, Element.Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
                         [ link [] { label = text "Rakuten Technology", url = "https://github.com/rakutentech" }
                         , link [] { label = text "Rakuten Front-end", url = "https://github.com/rakuten-frontend" }
                         , link [] { label = text "Rakuten Web Service", url = "https://github.com/rakuten-ws" }
                         ]
-                    , el [ Font.bold ] <| text "Resources"
-                    , column [ spacing 12, Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
+                    , el [ Element.Font.bold ] <| text "Resources"
+                    , column [ spacing 12, Element.Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
                         [ link [] { label = text "Rakuten Developers", url = "https://webservice.rakuten.co.jp/" }
                         , link [] { label = text "Rakuten RapidAPI", url = "https://api.rakuten.co.jp/" }
                         ]
                     ]
                 , column [ alignRight, spacing 14, alignTop ]
-                    [ link [ alignRight ] { label = Icon.icon Icon.Logo_Rakuten (Conf.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
-                    , el [ Font.size 15, Font.color <| Conf.c model .footerFontLight ] <| text "© Rakuten, inc."
-                    , Input.button [ alignRight, paddingXY 0 20 ]
-                        { label = Icon.icon Icon.Icon_PlusL (Conf.c model .footerFontLight) Conf.iconSize
+                    [ link [ alignRight ] { label = Internal.Icon.icon Internal.Icon.Logo_Rakuten (Conf.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
+                    , el [ Element.Font.size 15, Element.Font.color <| Conf.c model .footerFontLight ] <| text "© Rakuten, inc."
+                    , Element.Input.button [ alignRight, paddingXY 0 20 ]
+                        { label = Internal.Icon.icon Internal.Icon.Icon_PlusL (Conf.c model .footerFontLight) Conf.iconSize
                         , onPress = Just ToggleColorMode
                         }
                     ]

@@ -10,18 +10,10 @@ module Conf exposing
     , maxWidth
     )
 
-import Color as ElmColor
 import Element exposing (..)
-import Element.Background as Background
-import Element.Border as Border
-import Element.Font as Font
-import Element.Input as Input
 import Html exposing (Html)
-import Internal.CommonRoute as CommonRoute
-import Internal.Model as Model exposing (Model)
-import Internal.Msg as Msg exposing (Msg(..))
-import Internal.Shared as Shared
-import Svg.Attributes as SA
+import Internal.Model exposing (Model)
+import Internal.Msg exposing (Msg(..))
 
 
 
@@ -104,10 +96,10 @@ type alias ColorPalette =
     }
 
 
-colorPalette : Msg.ColorMode -> ColorPalette
+colorPalette : Internal.Msg.ColorMode -> ColorPalette
 colorPalette colorMode =
     case colorMode of
-        Msg.Night ->
+        Internal.Msg.Night ->
             { background = rgb 0.2 0.2 0.2
             , font = rgb 0.8 0.8 0.8
             , fontLight = rgb 0.5 0.5 0.5
@@ -118,7 +110,7 @@ colorPalette colorMode =
             , logo = rgb255 200 200 200
             }
 
-        Msg.Day ->
+        Internal.Msg.Day ->
             { background = rgb 1 1 1
             , font = rgb 0.3 0.3 0.3
             , fontLight = rgb 0.4 0.4 0.4
