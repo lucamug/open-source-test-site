@@ -1,7 +1,5 @@
 module Internal.Shared exposing (resultSearch)
 
-import Browser
-import Browser.Navigation
 import ElmTextSearch
 import Index.Defaults
 import Internal.APIRequest as APIRequest
@@ -11,9 +9,7 @@ import Internal.Msg as Msg exposing (Msg(..))
 import Internal.Route as Route
 import Internal.StopWordFilter as StopWordFilter
 import Internal.Utils as Utils
-import Keyboard
 import StopWordFilter
-import Url
 
 
 

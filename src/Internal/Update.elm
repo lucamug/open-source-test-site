@@ -2,8 +2,6 @@ module Internal.Update exposing (update)
 
 import Browser
 import Browser.Navigation
-import ElmTextSearch
-import Index.Defaults
 import Internal.APIRequest as APIRequest
 import Internal.CommonRoute as CommonRoute
 import Internal.Model as Model exposing (Model)
@@ -12,7 +10,6 @@ import Internal.Route as Route
 import Internal.StopWordFilter as StopWordFilter
 import Internal.Utils as Utils
 import Keyboard
-import StopWordFilter
 import Url
 
 

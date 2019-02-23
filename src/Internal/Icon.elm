@@ -1,22 +1,11 @@
 module Internal.Icon exposing
     ( Icon(..)
     , icon
-    , iconViewBoxAndPaths
-    , saFill
     )
 
 import Color as ElmColor
 import Color.Convert
-import Element exposing (..)
-import Element.Background as Background
-import Element.Border as Border
-import Element.Font as Font
-import Element.Input as Input
-import Html exposing (Html)
-import Internal.CommonRoute as CommonRoute
-import Internal.Model as Model exposing (Model)
-import Internal.Msg as Msg exposing (Msg(..))
-import Internal.Shared as Shared
+import Element
 import Svg
 import Svg.Attributes as SA
 
@@ -33,7 +22,6 @@ elementColorToElmColor elementColor =
    ███████ ██    ██ ██   ███     ██ ██      ██    ██ ██ ██  ██ ███████
         ██  ██  ██  ██    ██     ██ ██      ██    ██ ██  ██ ██      ██
    ███████   ████    ██████      ██  ██████  ██████  ██   ████ ███████
-   SVG ICONS
 -}
 
 
@@ -50,18 +38,18 @@ type Icon
     | Logo_Rakuten
 
 
-saFill : Color -> Svg.Attribute Msg
+saFill : Element.Color -> Svg.Attribute msg
 saFill cl =
     SA.fill <| Color.Convert.colorToHex <| elementColorToElmColor cl
 
 
-icon : Icon -> Color -> Int -> Element Msg
+icon : Icon -> Element.Color -> Int -> Element.Element msg
 icon icon_ cl size =
     let
         ( viewBox, paths ) =
             iconViewBoxAndPaths icon_ cl
     in
-    html <|
+    Element.html <|
         Svg.svg
             [ SA.xmlSpace "http://www.w3.org/2000/svg"
             , SA.viewBox viewBox
@@ -70,7 +58,7 @@ icon icon_ cl size =
             paths
 
 
-iconViewBoxAndPaths : Icon -> Color -> ( String, List (Svg.Svg Msg) )
+iconViewBoxAndPaths : Icon -> Element.Color -> ( String, List (Svg.Svg msg) )
 iconViewBoxAndPaths icon_ cl =
     case icon_ of
         Icon_Plus ->
