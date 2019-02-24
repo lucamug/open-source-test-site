@@ -1,21 +1,16 @@
 module Internal.View exposing (view)
 
 import Browser
-import Color
 import Conf
 import Element exposing (..)
 import Element.Background as Background
-import Element.Border
 import Element.Font as Font
-import Element.Input
 import Html exposing (Html)
 import Html.Attributes
 import Internal.CommonRoute as CommonRoute
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
-import Internal.Shared
-import Svg.Attributes
 import ViewBody
 import ViewFooter
 import ViewHeader

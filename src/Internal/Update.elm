@@ -2,12 +2,10 @@ module Internal.Update exposing (update)
 
 import Browser
 import Browser.Navigation
-import Internal.APIRequest
 import Internal.CommonRoute as CommonRoute
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
-import Internal.StopWordFilter
 import Internal.Type as Type
 import Internal.Utils as Utils
 import Keyboard

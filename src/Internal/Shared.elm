@@ -2,13 +2,9 @@ module Internal.Shared exposing (resultSearch)
 
 import ElmTextSearch
 import Index.Defaults
-import Internal.APIRequest
-import Internal.CommonRoute
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
-import Internal.Route
 import Internal.StopWordFilter as StopWordFilter
-import Internal.Utils
 import StopWordFilter
 
 
