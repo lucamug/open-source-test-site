@@ -1,7 +1,7 @@
 module ViewBody exposing (view)
 
 import Element exposing (..)
-import Element.Font
+import Element.Font as Font
 import Html exposing (Html)
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
@@ -22,7 +22,7 @@ view =
     [ el
         [ alignLeft
         , paddingEach { top = 0, right = 10, bottom = 0, left = 0 }
-        , Element.Font.size 60
+        , Font.size 60
         ]
         (text "L")
     , text "orem ipsum dolor sit amet, consectetur adipiscing elit. Aenean suscipit nunc risus, aliquet viverra urna tincidunt a. Nulla non augue ipsum. Vestibulum eget rutrum purus, id dictum quam. Morbi lacinia purus nec pellentesque molestie. In id metus imperdiet, pulvinar libero ac, accumsan mauris. Nullam laoreet purus sed odio auctor venenatis. Aliquam commodo, mauris a maximus cursus, dui nisi iaculis diam, a varius velit enim sit amet nisi."

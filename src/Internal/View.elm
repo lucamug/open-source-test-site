@@ -106,7 +106,7 @@ view model =
                         Just result ->
                             case result of
                                 Ok repos ->
-                                    column [ spacing 5 ] <| List.indexedMap (\index repo -> ViewRepo.view model index repo) repos
+                                    column [ spacing 15 ] <| List.indexedMap (\index repo -> ViewRepo.view model index repo) repos
 
                                 Err err ->
                                     paragraph [] [ text <| "Error" ]

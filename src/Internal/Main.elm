@@ -7,12 +7,13 @@ import Internal.Model as Model exposing (Model)
 import Internal.Msg as Msg
 import Internal.Port as Port
 import Internal.Shared as Shared
+import Internal.Type as Type
 import Internal.Update as Update
 import Internal.View as View
 import Keyboard
 
 
-main : Program Msg.Flags Model Msg.Msg
+main : Program Type.Flags Model Msg.Msg
 main =
     Browser.application
         { init = Init.init

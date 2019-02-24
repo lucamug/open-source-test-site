@@ -8,6 +8,7 @@ import Internal.Model as Model exposing (Model)
 import Internal.Msg as Msg exposing (Msg(..))
 import Internal.Route as Route
 import Internal.StopWordFilter as StopWordFilter
+import Internal.Type as Type
 import Internal.Utils as Utils
 import Keyboard
 import Url
@@ -89,11 +90,11 @@ update msg model =
             ( { model
                 | colorMode =
                     case model.colorMode of
-                        Msg.Day ->
-                            Msg.Night
+                        Type.Day ->
+                            Type.Night
 
                         _ ->
-                            Msg.Day
+                            Type.Day
               }
             , Cmd.none
             )
@@ -102,11 +103,11 @@ update msg model =
             ( { model
                 | layoutMode =
                     case model.layoutMode of
-                        Msg.Grid ->
-                            Msg.List
+                        Type.Grid ->
+                            Type.List
 
                         _ ->
-                            Msg.Grid
+                            Type.Grid
               }
             , Cmd.none
             )

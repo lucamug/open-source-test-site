@@ -2,16 +2,17 @@ module ViewHeader exposing (view)
 
 import Conf
 import Element exposing (..)
-import Element.Background
-import Element.Border
-import Element.Font
-import Element.Input
+import Element.Background as Background
+import Element.Border as Border
+import Element.Font as Font
+import Element.Input as Input
 import Html exposing (Html)
 import Html.Attributes
-import Internal.Icon
+import Internal.Icon as Icon
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
-import Internal.Utils
+import Internal.Type as Type
+import Internal.Utils as Utils
 
 
 
@@ -29,7 +30,7 @@ view model =
     el
         ([ clip
          , width fill
-         , Element.Background.color <| Conf.c model .background
+         , Background.color <| Conf.c model .background
          , htmlAttribute <| Html.Attributes.style "transition" "all 200ms linear"
          ]
             ++ (if model.pageInTopArea then
@@ -37,7 +38,7 @@ view model =
 
                 else
                     [ height <| px Conf.headerHeightSmall
-                    , Element.Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
+                    , Border.shadow { offset = ( 0, 0 ), size = 5, blur = 10, color = rgba 0 0 0 0.2 }
                     ]
                )
         )
@@ -52,7 +53,7 @@ view model =
             ]
             [ if model.width > 700 then
                 el
-                    [ Element.Font.size
+                    [ Font.size
                         (if model.pageInTopArea then
                             40
 
@@ -64,12 +65,12 @@ view model =
                     ]
                 <|
                     row [ spacing 7 ]
-                        [ el [] <| Internal.Icon.icon Internal.Icon.Logo_Rakuten (Conf.c model .logo) 30
+                        [ el [] <| Icon.icon Icon.Logo_Rakuten (Conf.c model .logo) 30
                         , el
-                            [ Element.Font.color <| Conf.c model .logo
-                            , Element.Font.size 26
-                            , Element.Font.letterSpacing -1
-                            , Element.Font.bold
+                            [ Font.color <| Conf.c model .logo
+                            , Font.size 26
+                            , Font.letterSpacing -1
+                            , Font.bold
                             , moveUp 4
                             ]
                           <|
@@ -79,37 +80,37 @@ view model =
               else
                 none
             , row [ width fill, spacing 40 ]
-                [ Element.Input.text
-                    [ Element.Border.width 1
-                    , Element.Border.rounded 5
-                    , Element.Border.color <| Conf.c model .border
+                [ Input.text
+                    [ Border.width 1
+                    , Border.rounded 5
+                    , Border.color <| Conf.c model .border
                     , paddingXY 8 8
-                    , Element.Font.size 20
+                    , Font.size 20
                     , width fill
-                    , Element.Background.color <| Conf.c model .background
+                    , Background.color <| Conf.c model .background
                     ]
                     { onChange = Internal.Msg.ChangeFilter
-                    , text = Internal.Utils.decode model.filter
-                    , placeholder = Just <| Element.Input.placeholder [ Element.Font.color <| Conf.c model .fontLight ] <| text "Filter by repository name, description or language"
-                    , label = Element.Input.labelAbove [] none
+                    , text = Utils.decode model.filter
+                    , placeholder = Just <| Input.placeholder [ Font.color <| Conf.c model .fontLight ] <| text "Filter by repository name, description or language"
+                    , label = Input.labelAbove [] none
                     }
                 , if String.length model.filter > 0 then
-                    Element.Input.button []
-                        { label = Internal.Icon.icon Internal.Icon.Icon_Close (Conf.c model .font) Conf.iconSize
+                    Input.button []
+                        { label = Icon.icon Icon.Icon_Close (Conf.c model .font) Conf.iconSize
                         , onPress = Just <| ChangeFilter ""
                         }
 
                   else
                     none
-                , Element.Input.button []
+                , Input.button []
                     { label =
-                        Internal.Icon.icon
+                        Icon.icon
                             (case model.layoutMode of
-                                Internal.Msg.Grid ->
-                                    Internal.Icon.Icon_Row
+                                Type.Grid ->
+                                    Icon.Icon_Row
 
-                                Internal.Msg.List ->
-                                    Internal.Icon.Icon_Grid
+                                Type.List ->
+                                    Icon.Icon_Grid
                             )
                             (Conf.c model .font)
                             Conf.iconSize

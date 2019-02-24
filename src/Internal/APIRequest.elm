@@ -5,6 +5,7 @@ module Internal.APIRequest exposing
 
 import HttpBuilder
 import Internal.Msg as Msg
+import Internal.Type as Type
 import Json.Decode
 import Json.Decode.Pipeline
 
@@ -17,14 +18,14 @@ request =
         |> HttpBuilder.send Msg.GotData
 
 
-decoderBody : Json.Decode.Decoder (List Msg.Repo)
+decoderBody : Json.Decode.Decoder (List Type.Repo)
 decoderBody =
     Json.Decode.list decoderRepo
 
 
-decoderRepo : Json.Decode.Decoder Msg.Repo
+decoderRepo : Json.Decode.Decoder Type.Repo
 decoderRepo =
-    Json.Decode.succeed Msg.Repo
+    Json.Decode.succeed Type.Repo
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.optional "description" Json.Decode.string ""
         |> Json.Decode.Pipeline.required "fork" Json.Decode.bool

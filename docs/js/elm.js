@@ -5650,7 +5650,7 @@ var NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
 			A2(elm$json$Json$Decode$field, key, valDecoder),
 			decoder);
 	});
-var author$project$Internal$Msg$Repo = F6(
+var author$project$Internal$Type$Repo = F6(
 	function (name, description, fork, updated_at, homepage, language) {
 		return {description: description, fork: fork, homepage: homepage, language: language, name: name, updated_at: updated_at};
 	});
@@ -5683,7 +5683,7 @@ var author$project$Internal$APIRequest$decoderRepo = A4(
 						NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 						'name',
 						elm$json$Json$Decode$string,
-						elm$json$Json$Decode$succeed(author$project$Internal$Msg$Repo)))))));
+						elm$json$Json$Decode$succeed(author$project$Internal$Type$Repo)))))));
 var elm$json$Json$Decode$list = _Json_decodeList;
 var author$project$Internal$APIRequest$decoderBody = elm$json$Json$Decode$list(author$project$Internal$APIRequest$decoderRepo);
 var author$project$Internal$Msg$GotData = function (a) {
@@ -6737,8 +6737,6 @@ var author$project$Internal$CommonRoute$fromUrl = F2(
 			conf.disabled,
 			A2(author$project$Internal$CommonRoute$urlToMaybeRoute, conf, url));
 	});
-var author$project$Internal$Msg$Day = {$: 'Day'};
-var author$project$Internal$Msg$Grid = {$: 'Grid'};
 var author$project$Internal$Route$Empty = {$: 'Empty'};
 var author$project$Internal$Route$Filter = function (a) {
 	return {$: 'Filter', a: a};
@@ -6946,6 +6944,8 @@ var author$project$Internal$Route$toString = function (route) {
 	return _Utils_eq(pieces, _List_Nil) ? '' : ('/' + A2(elm$core$String$join, '/', pieces));
 };
 var author$project$Internal$Route$conf = {disabled: author$project$Internal$Route$Empty, parser: author$project$Internal$Route$parser, toString: author$project$Internal$Route$toString};
+var author$project$Internal$Type$Day = {$: 'Day'};
+var author$project$Internal$Type$Grid = {$: 'Grid'};
 var author$project$Internal$Init$init = F3(
 	function (flags, url, key) {
 		var filter = function () {
@@ -6958,7 +6958,7 @@ var author$project$Internal$Init$init = F3(
 			}
 		}();
 		return _Utils_Tuple2(
-			{colorMode: author$project$Internal$Msg$Day, filter: filter, key: key, layoutMode: author$project$Internal$Msg$Grid, pageInTopArea: true, response: elm$core$Maybe$Nothing, url: url, width: flags.width},
+			{colorMode: author$project$Internal$Type$Day, filter: filter, key: key, layoutMode: author$project$Internal$Type$Grid, pageInTopArea: true, response: elm$core$Maybe$Nothing, url: url, width: flags.width},
 			author$project$Internal$APIRequest$request);
 	});
 var author$project$Internal$Msg$KeyUp = function (a) {
@@ -6983,8 +6983,8 @@ var author$project$Internal$CommonRoute$toStringAndHash = F2(
 		var string = conf.toString(route);
 		return '#' + string;
 	});
-var author$project$Internal$Msg$List = {$: 'List'};
-var author$project$Internal$Msg$Night = {$: 'Night'};
+var author$project$Internal$Type$List = {$: 'List'};
+var author$project$Internal$Type$Night = {$: 'Night'};
 var author$project$Internal$Route$routeToRestoreFilter = function (filter) {
 	return (filter === '') ? author$project$Internal$Route$Empty : author$project$Internal$Route$Filter(filter);
 };
@@ -10719,9 +10719,9 @@ var author$project$Internal$Update$update = F2(
 							colorMode: function () {
 								var _n3 = model.colorMode;
 								if (_n3.$ === 'Day') {
-									return author$project$Internal$Msg$Night;
+									return author$project$Internal$Type$Night;
 								} else {
-									return author$project$Internal$Msg$Day;
+									return author$project$Internal$Type$Day;
 								}
 							}()
 						}),
@@ -10734,9 +10734,9 @@ var author$project$Internal$Update$update = F2(
 							layoutMode: function () {
 								var _n4 = model.layoutMode;
 								if (_n4.$ === 'Grid') {
-									return author$project$Internal$Msg$List;
+									return author$project$Internal$Type$List;
 								} else {
-									return author$project$Internal$Msg$Grid;
+									return author$project$Internal$Type$Grid;
 								}
 							}()
 						}),
@@ -10776,7 +10776,7 @@ var author$project$Conf$colorPalette = function (colorMode) {
 			border: A3(mdgriffith$elm_ui$Element$rgb, 0.2, 0.2, 0.2),
 			font: A3(mdgriffith$elm_ui$Element$rgb, 0.8, 0.8, 0.8),
 			fontLight: A3(mdgriffith$elm_ui$Element$rgb, 0.5, 0.5, 0.5),
-			footerBackground: A3(mdgriffith$elm_ui$Element$rgb255, 51, 51, 51),
+			footerBackground: A3(mdgriffith$elm_ui$Element$rgb255, 20, 20, 20),
 			footerFont: A3(mdgriffith$elm_ui$Element$rgb255, 200, 200, 200),
 			footerFontLight: A3(mdgriffith$elm_ui$Element$rgb255, 153, 153, 153),
 			logo: A3(mdgriffith$elm_ui$Element$rgb255, 200, 200, 200)
@@ -18001,8 +18001,29 @@ var author$project$ViewHeader$view = function (model) {
 };
 var author$project$ViewRepo$view = F3(
 	function (model, index, repo) {
-		return mdgriffith$elm_ui$Element$text(
-			elm$core$String$fromInt(index + 1) + ('. ' + repo.name));
+		return A2(
+			mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					mdgriffith$elm_ui$Element$spacing(6)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[
+							mdgriffith$elm_ui$Element$Font$size(30)
+						]),
+					mdgriffith$elm_ui$Element$text(
+						elm$core$String$fromInt(index + 1) + ('. ' + repo.name))),
+					mdgriffith$elm_ui$Element$text(repo.description),
+					mdgriffith$elm_ui$Element$text(
+					repo.fork ? 'True' : 'False'),
+					mdgriffith$elm_ui$Element$text(repo.updated_at),
+					mdgriffith$elm_ui$Element$text(repo.homepage),
+					mdgriffith$elm_ui$Element$text(repo.language)
+				]));
 	});
 var mdgriffith$elm_ui$Internal$Model$FocusStyleOption = function (a) {
 	return {$: 'FocusStyleOption', a: a};
@@ -18519,7 +18540,7 @@ var author$project$Internal$View$view = function (model) {
 											mdgriffith$elm_ui$Element$column,
 											_List_fromArray(
 												[
-													mdgriffith$elm_ui$Element$spacing(5)
+													mdgriffith$elm_ui$Element$spacing(15)
 												]),
 											A2(
 												elm$core$List$indexedMap,
@@ -18783,4 +18804,4 @@ _Platform_export({'Internal':{'Main':{'init':author$project$Internal$Main$main(
 			return elm$json$Json$Decode$succeed(
 				{width: width});
 		},
-		A2(elm$json$Json$Decode$field, 'width', elm$json$Json$Decode$int)))({"versions":{"elm":"0.19.0"},"types":{"message":"Internal.Msg.Msg","aliases":{"Internal.Msg.ClickData":{"args":[],"type":"{ id1 : String.String, id2 : String.String, id3 : String.String, id4 : String.String, id5 : String.String }"},"Internal.Msg.Repo":{"args":[],"type":"{ name : String.String, description : String.String, fork : Basics.Bool, updated_at : String.String, homepage : String.String, language : String.String }"},"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"},"Http.Response":{"args":["body"],"type":"{ url : String.String, status : { code : Basics.Int, message : String.String }, headers : Dict.Dict String.String String.String, body : body }"}},"unions":{"Internal.Msg.Msg":{"args":[],"tags":{"Click":["Internal.Msg.ClickData"],"OnResize":["Basics.Int","Basics.Int"],"ToggleColorMode":[],"ToggleLayoutMode":[],"ChangeFilter":["String.String"],"PageInTopArea":["Basics.Bool"],"KeyUp":["Keyboard.RawKey"],"LinkClicked":["Browser.UrlRequest"],"UrlChanged":["Url.Url"],"GotData":["Result.Result Http.Error (List.List Internal.Msg.Repo)"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"List.List":{"args":["a"],"tags":{}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Http.Response String.String"],"BadPayload":["String.String","Http.Response String.String"]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"Keyboard.RawKey":{"args":[],"tags":{"RawKey":["String.String"]}},"Dict.Dict":{"args":["k","v"],"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":[]}},"Dict.NColor":{"args":[],"tags":{"Red":[],"Black":[]}}}}})}}});}(this));
+		A2(elm$json$Json$Decode$field, 'width', elm$json$Json$Decode$int)))({"versions":{"elm":"0.19.0"},"types":{"message":"Internal.Msg.Msg","aliases":{"Internal.Type.ClickData":{"args":[],"type":"{ id1 : String.String, id2 : String.String, id3 : String.String, id4 : String.String, id5 : String.String }"},"Internal.Type.Repo":{"args":[],"type":"{ name : String.String, description : String.String, fork : Basics.Bool, updated_at : String.String, homepage : String.String, language : String.String }"},"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"},"Http.Response":{"args":["body"],"type":"{ url : String.String, status : { code : Basics.Int, message : String.String }, headers : Dict.Dict String.String String.String, body : body }"}},"unions":{"Internal.Msg.Msg":{"args":[],"tags":{"Click":["Internal.Type.ClickData"],"OnResize":["Basics.Int","Basics.Int"],"ToggleColorMode":[],"ToggleLayoutMode":[],"ChangeFilter":["String.String"],"PageInTopArea":["Basics.Bool"],"KeyUp":["Keyboard.RawKey"],"LinkClicked":["Browser.UrlRequest"],"UrlChanged":["Url.Url"],"GotData":["Result.Result Http.Error (List.List Internal.Type.Repo)"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"List.List":{"args":["a"],"tags":{}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Http.Response String.String"],"BadPayload":["String.String","Http.Response String.String"]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"Keyboard.RawKey":{"args":[],"tags":{"RawKey":["String.String"]}},"Dict.Dict":{"args":["k","v"],"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":[]}},"Dict.NColor":{"args":[],"tags":{"Red":[],"Black":[]}}}}})}}});}(this));

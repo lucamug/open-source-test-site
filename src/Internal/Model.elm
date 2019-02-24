@@ -4,9 +4,9 @@ import Browser.Navigation
 import Http
 import Internal.APIRequest as APIRequest
 import Internal.CommonRoute as CommonRoute
-import Internal.Msg as Msg exposing (Msg(..))
 import Internal.Route as Route
 import Internal.StopWordFilter as StopWordFilter
+import Internal.Type as Type
 import Internal.Utils as Utils
 import Url
 
@@ -17,7 +17,7 @@ type alias Model =
     , filter : String
     , width : Int
     , pageInTopArea : Bool
-    , colorMode : Msg.ColorMode
-    , layoutMode : Msg.LayoutMode
-    , response : Maybe (Result Http.Error (List Msg.Repo))
+    , colorMode : Type.ColorMode
+    , layoutMode : Type.LayoutMode
+    , response : Maybe (Result Http.Error (List Type.Repo))
     }
