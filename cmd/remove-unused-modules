@@ -52,7 +52,7 @@ childProcess.exec("./node_modules/.bin/elm-analyse", (e, out) => {
             }
         });
         const content = contentArray.filter(s => s !== null).join("\n");
-        // fs.writeFileSync(file, content);
+        fs.writeFileSync(file, content);
     }
     for (let file in unusedAliases) {
         const contentArray = fs.readFileSync(file, "utf8").split("\n");
@@ -67,6 +67,6 @@ childProcess.exec("./node_modules/.bin/elm-analyse", (e, out) => {
             }
         });
         const content = contentArray.filter(s => s !== null).join("\n");
-        // fs.writeFileSync(file, content);
+        fs.writeFileSync(file, content);
     }
 });

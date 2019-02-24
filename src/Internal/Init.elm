@@ -3,12 +3,12 @@ module Internal.Init exposing (init)
 import Browser.Navigation
 import Internal.APIRequest as APIRequest
 import Internal.CommonRoute as CommonRoute
-import Internal.Model as Model exposing (Model)
-import Internal.Msg as Msg exposing (Msg(..))
+import Internal.Model exposing (Model)
+import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
-import Internal.StopWordFilter as StopWordFilter
+import Internal.StopWordFilter
 import Internal.Type as Type
-import Internal.Utils as Utils
+import Internal.Utils
 import Url
 
 

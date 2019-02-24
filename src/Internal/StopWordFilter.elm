@@ -1,8 +1,8 @@
 module Internal.StopWordFilter exposing (createMyStopWordFilter)
 
-import Internal.CommonRoute as CommonRoute
-import Internal.Route as Route
-import Internal.Utils as Utils
+import Internal.CommonRoute
+import Internal.Route
+import Internal.Utils
 import StopWordFilter
 
 

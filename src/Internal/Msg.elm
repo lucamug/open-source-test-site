@@ -2,11 +2,11 @@ module Internal.Msg exposing (Msg(..))
 
 import Browser
 import Http
-import Internal.CommonRoute as CommonRoute
-import Internal.Route as Route
-import Internal.StopWordFilter as StopWordFilter
+import Internal.CommonRoute
+import Internal.Route
+import Internal.StopWordFilter
 import Internal.Type as Type
-import Internal.Utils as Utils
+import Internal.Utils
 import Keyboard
 import Url
 

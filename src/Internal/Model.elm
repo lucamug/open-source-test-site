@@ -2,12 +2,12 @@ module Internal.Model exposing (Model)
 
 import Browser.Navigation
 import Http
-import Internal.APIRequest as APIRequest
-import Internal.CommonRoute as CommonRoute
-import Internal.Route as Route
-import Internal.StopWordFilter as StopWordFilter
+import Internal.APIRequest
+import Internal.CommonRoute
+import Internal.Route
+import Internal.StopWordFilter
 import Internal.Type as Type
-import Internal.Utils as Utils
+import Internal.Utils
 import Url
 
 

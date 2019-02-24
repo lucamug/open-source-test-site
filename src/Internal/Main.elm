@@ -3,10 +3,10 @@ module Internal.Main exposing (main)
 import Browser
 import Browser.Events
 import Internal.Init as Init
-import Internal.Model as Model exposing (Model)
+import Internal.Model exposing (Model)
 import Internal.Msg as Msg
 import Internal.Port as Port
-import Internal.Shared as Shared
+import Internal.Shared
 import Internal.Type as Type
 import Internal.Update as Update
 import Internal.View as View

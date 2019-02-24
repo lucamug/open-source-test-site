@@ -6,10 +6,9 @@ module Internal.Type exposing
     , Repo
     )
 
-import Internal.CommonRoute as CommonRoute
-import Internal.Route
+import Internal.CommonRoute
 import Internal.StopWordFilter as StopWordFilter
-import Internal.Utils as Utils
+import Internal.Utils
 
 
 type alias Flags =
