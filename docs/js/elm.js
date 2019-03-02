@@ -6727,6 +6727,8 @@ var ohanhi$keyboard$Keyboard$rawValue = function (_n0) {
 var author$project$Internal$Update$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
+			case 10:
+				return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 			case 9:
 				var response = msg.a;
 				return _Utils_Tuple2(

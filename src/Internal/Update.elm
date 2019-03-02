@@ -28,6 +28,9 @@ commandToCloseModal { filter, key } =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        OnStoreChange _ ->
+            ( model, Cmd.none )
+
         GotData response ->
             ( { model | response = Just response }, Cmd.none )
 
