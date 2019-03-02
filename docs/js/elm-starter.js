@@ -9,12 +9,13 @@
     let pageInTopArea = pageYOffset <= headerHeight;
     let node = w.document.createElement('div');
     let storageKey = "store";
-    var ls = localStorage.getItem(storageKey) || {};
+    var ls = JSON.parse(localStorage.getItem(storageKey)) || {};
     flags = {
         nightMode : typeof ls.nightMode == "boolean" ? ls.nightMode : false,
         width : window.innerWidth,
     };
 
+    console.log("ls", ls);
     console.log("js", flags);
 
     w.document.body.appendChild(node);
