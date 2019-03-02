@@ -3,13 +3,18 @@ module Internal.Type exposing
     , ColorMode(..)
     , Flags
     , LayoutMode(..)
+    , LocalStorage
     , Repo
     )
 
 
+type alias LocalStorage =
+    { nightMode : Bool }
+
+
 type alias Flags =
     { width : Int
-    , nightMode : Bool
+    , localStorage : LocalStorage
     }
 
 

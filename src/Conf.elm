@@ -97,32 +97,31 @@ type alias ColorPalette =
     }
 
 
-colorPalette : Type.ColorMode -> ColorPalette
-colorPalette colorMode =
-    case colorMode of
-        Type.Night ->
-            { background = rgb 0.2 0.2 0.2
-            , font = rgb 0.8 0.8 0.8
-            , fontLight = rgb 0.5 0.5 0.5
-            , footerBackground = rgb255 20 20 20
-            , footerFont = rgb255 200 200 200
-            , footerFontLight = rgb255 153 153 153
-            , border = rgb 0.2 0.2 0.2
-            , logo = rgb255 200 200 200
-            }
+colorPalette : Bool -> ColorPalette
+colorPalette nightMode =
+    if nightMode then
+        { background = rgb 0.2 0.2 0.2
+        , font = rgb 0.8 0.8 0.8
+        , fontLight = rgb 0.5 0.5 0.5
+        , footerBackground = rgb255 20 20 20
+        , footerFont = rgb255 200 200 200
+        , footerFontLight = rgb255 153 153 153
+        , border = rgb 0.2 0.2 0.2
+        , logo = rgb255 200 200 200
+        }
 
-        Type.Day ->
-            { background = rgb 1 1 1
-            , font = rgb 0.3 0.3 0.3
-            , fontLight = rgb 0.4 0.4 0.4
-            , footerBackground = rgb255 51 51 51
-            , footerFont = rgb255 200 200 200
-            , footerFontLight = rgb255 153 153 153
-            , border = rgb 0.8 0.8 0.8
-            , logo = rgb255 191 0 0
-            }
+    else
+        { background = rgb 1 1 1
+        , font = rgb 0.3 0.3 0.3
+        , fontLight = rgb 0.4 0.4 0.4
+        , footerBackground = rgb255 51 51 51
+        , footerFont = rgb255 200 200 200
+        , footerFontLight = rgb255 153 153 153
+        , border = rgb 0.8 0.8 0.8
+        , logo = rgb255 191 0 0
+        }
 
 
 c : Model -> (ColorPalette -> b) -> b
 c model key =
-    key <| colorPalette model.colorMode
+    key <| colorPalette model.localStorage.nightMode

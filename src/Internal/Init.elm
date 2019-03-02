@@ -17,9 +17,6 @@ import Url
 init : Type.Flags -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
-        _ =
-            Debug.log "xxx" flags
-
         filter =
             case CommonRoute.fromUrl Route.conf url of
                 Route.Filter filter_ ->
@@ -33,12 +30,7 @@ init flags url key =
       , filter = filter
       , width = flags.width
       , pageInTopArea = True
-      , colorMode =
-            if flags.nightMode then
-                Type.Night
-
-            else
-                Type.Day
+      , localStorage = flags.localStorage
       , layoutMode = Type.Grid
       , response = Nothing
       }

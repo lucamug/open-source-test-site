@@ -10,8 +10,9 @@
     let node = w.document.createElement('div');
     let storageKey = "store";
     let ls = JSON.parse(localStorage.getItem(storageKey)) || {};
+    ls.nightMode = typeof ls.nightMode == "boolean" ? ls.nightMode : false;
     flags = {
-        nightMode : typeof ls.nightMode == "boolean" ? ls.nightMode : false,
+        localStorage : ls, 
         width : window.innerWidth,
     };
 

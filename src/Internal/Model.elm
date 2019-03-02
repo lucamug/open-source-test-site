@@ -12,7 +12,7 @@ type alias Model =
     , filter : String
     , width : Int
     , pageInTopArea : Bool
-    , colorMode : Type.ColorMode
+    , localStorage : Type.LocalStorage
     , layoutMode : Type.LayoutMode
     , response : Maybe (Result Http.Error (List Type.Repo))
     }

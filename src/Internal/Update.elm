@@ -9,6 +9,8 @@ import Internal.Port
 import Internal.Route as Route
 import Internal.Type as Type
 import Internal.Utils as Utils
+import Json.Decode
+import Json.Decode.Pipeline
 import Keyboard
 import Url
 
@@ -25,15 +27,26 @@ commandToCloseModal { filter, key } =
             Route.routeToRestoreFilter filter
 
 
+decoder : Json.Decode.Decoder Type.LocalStorage
+decoder =
+    Json.Decode.succeed Type.LocalStorage
+        |> Json.Decode.Pipeline.required "nightMode" Json.Decode.bool
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         OnStoreChange ls ->
             let
-                _ =
-                    Debug.log "xxx" ls
+                localStorageResult =
+                    Debug.log "OnStoreChange xxx" <| Json.Decode.decodeString decoder ls
             in
-            ( model, Cmd.none )
+            case localStorageResult of
+                Ok localStorage ->
+                    ( { model | localStorage = localStorage }, Cmd.none )
+
+                Err _ ->
+                    ( model, Cmd.none )
 
         GotData response ->
             ( { model | response = Just response }, Cmd.none )
@@ -94,19 +107,14 @@ update msg model =
 
         ToggleColorMode ->
             let
-                colorMode =
-                    case model.colorMode of
-                        Type.Day ->
-                            Type.Night
+                localStorage =
+                    model.localStorage
 
-                        _ ->
-                            Type.Day
-
-                nightMode =
-                    colorMode == Type.Night
+                newLocalStorage =
+                    { localStorage | nightMode = not localStorage.nightMode }
             in
-            ( { model | colorMode = colorMode }
-            , Internal.Port.toLocalStorage { nightMode = nightMode }
+            ( { model | localStorage = newLocalStorage }
+            , Internal.Port.toLocalStorage newLocalStorage
             )
 
         ToggleLayoutMode ->
