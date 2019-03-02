@@ -17,18 +17,35 @@
         flags: flags,
         node: node
     });
-    (function(headerHeight, pageInTopArea, app) {
-        window.addEventListener('scroll', function() {
-            if (!pageInTopArea && pageYOffset > headerHeight) {
-                return;
-            }
-            if (pageInTopArea && pageYOffset <= headerHeight) {
-                return;
-            }
-            pageInTopArea = !pageInTopArea;
-            app.ports.pageInTopArea.send(pageInTopArea);
 
-        }, false);
-    })(headerHeight, pageInTopArea, app);
+    app.ports.storeCache.subscribe(function(val) {
+        if (val === null) {
+            localStorage.removeItem(storageKey);
+        } else {
+            localStorage.setItem(storageKey, JSON.stringify(val));
+        }
+        setTimeout(function() {
+            app.ports.onStoreChange.send(val);
+        }, 0);
+    });
+
+    window.addEventListener("storage", function(event) {
+        if (event.storageArea === localStorage && event.key === storageKey) {
+            app.ports.onStoreChange.send(event.newValue);
+        }
+    }, false);
+
+    window.addEventListener('scroll', function() {
+        if (!pageInTopArea && pageYOffset > headerHeight) {
+            return;
+        }
+        if (pageInTopArea && pageYOffset <= headerHeight) {
+            return;
+        }
+        pageInTopArea = !pageInTopArea;
+        app.ports.pageInTopArea.send(pageInTopArea);
+    }, false);
+
+
     window.app = app;
 })(window || {});
