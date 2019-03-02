@@ -6445,6 +6445,46 @@ var author$project$Internal$CommonRoute$toStringAndHash = F2(
 		var string = conf.e2(route);
 		return '#' + string;
 	});
+var elm$core$Maybe$destruct = F3(
+	function (_default, func, maybe) {
+		if (!maybe.$) {
+			var a = maybe.a;
+			return func(a);
+		} else {
+			return _default;
+		}
+	});
+var elm$json$Json$Encode$null = _Json_encodeNull;
+var author$project$Internal$Port$storeCache = _Platform_outgoingPort(
+	'storeCache',
+	function ($) {
+		return A3(elm$core$Maybe$destruct, elm$json$Json$Encode$null, elm$core$Basics$identity, $);
+	});
+var elm$json$Json$Encode$bool = _Json_wrap;
+var elm$json$Json$Encode$object = function (pairs) {
+	return _Json_wrap(
+		A3(
+			elm$core$List$foldl,
+			F2(
+				function (_n0, obj) {
+					var k = _n0.a;
+					var v = _n0.b;
+					return A3(_Json_addField, k, v, obj);
+				}),
+			_Json_emptyObject(0),
+			pairs));
+};
+var author$project$Internal$Port$storeFlags = function (nightMode) {
+	var json = elm$json$Json$Encode$object(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'nightMode',
+				elm$json$Json$Encode$bool(nightMode))
+			]));
+	return author$project$Internal$Port$storeCache(
+		elm$core$Maybe$Just(json));
+};
 var author$project$Internal$Type$List = 0;
 var author$project$Internal$Type$Night = 1;
 var author$project$Internal$Route$routeToRestoreFilter = function (filter) {
@@ -6769,7 +6809,7 @@ var author$project$Internal$Update$update = F2(
 					_Utils_update(
 						model,
 						{c9: colorMode}),
-					elm$core$Platform$Cmd$none);
+					author$project$Internal$Port$storeFlags(nightMode));
 			case 3:
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -12739,7 +12779,6 @@ var mdgriffith$elm_ui$Element$Font$color = function (fontColor) {
 			'color',
 			fontColor));
 };
-var elm$json$Json$Encode$bool = _Json_wrap;
 var elm$html$Html$Attributes$boolProperty = F2(
 	function (key, bool) {
 		return A2(

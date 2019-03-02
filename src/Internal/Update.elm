@@ -5,6 +5,7 @@ import Browser.Navigation
 import Internal.CommonRoute as CommonRoute
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
+import Internal.Port
 import Internal.Route as Route
 import Internal.Type as Type
 import Internal.Utils as Utils
@@ -97,8 +98,7 @@ update msg model =
                 nightMode =
                     colorMode == Type.Night
             in
-            -- ( { model | colorMode = colorMode }, Internal.Port.storeFlags nightMode )
-            ( { model | colorMode = colorMode }, Cmd.none )
+            ( { model | colorMode = colorMode }, Internal.Port.storeFlags nightMode )
 
         ToggleLayoutMode ->
             ( { model
