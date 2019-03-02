@@ -19,4 +19,4 @@ type Msg
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
     | GotData (Result Http.Error (List Type.Repo))
-    | OnStoreChange Json.Encode.Value
+    | OnStoreChange String

@@ -21,11 +21,12 @@
         node: node
     });
 
-    app.ports.storeCache.subscribe(function(val) {
+    app.ports.elmToLocalStorage.subscribe(function(val) {
+        console.log("elmToLocalStorage", typeof val, val);
         if (val === null) {
             localStorage.removeItem(storageKey);
         } else {
-            localStorage.setItem(storageKey, JSON.stringify(val));
+            localStorage.setItem(storageKey, val);
         }
         setTimeout(function() {
             app.ports.onStoreChange.send(val);
@@ -34,7 +35,6 @@
 
     window.addEventListener("storage", function(event) {
         if (event.storageArea === localStorage && event.key === storageKey) {
-            console.log("storage", event.newValue);
             app.ports.onStoreChange.send(event.newValue);
         }
     }, false);

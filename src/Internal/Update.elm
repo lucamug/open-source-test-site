@@ -105,7 +105,9 @@ update msg model =
                 nightMode =
                     colorMode == Type.Night
             in
-            ( { model | colorMode = colorMode }, Internal.Port.storeFlags nightMode )
+            ( { model | colorMode = colorMode }
+            , Internal.Port.toLocalStorage { nightMode = nightMode }
+            )
 
         ToggleLayoutMode ->
             ( { model
