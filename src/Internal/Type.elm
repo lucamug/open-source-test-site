@@ -7,9 +7,9 @@ module Internal.Type exposing
     )
 
 
-
 type alias Flags =
     { width : Int
+    , nightMode : Bool
     }
 
 
