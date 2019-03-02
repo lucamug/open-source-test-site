@@ -85,17 +85,20 @@ update msg model =
             ( { model | width = x }, Cmd.none )
 
         ToggleColorMode ->
-            ( { model
-                | colorMode =
+            let
+                colorMode =
                     case model.colorMode of
                         Type.Day ->
                             Type.Night
 
                         _ ->
                             Type.Day
-              }
-            , Cmd.none
-            )
+
+                nightMode =
+                    colorMode == Type.Night
+            in
+            -- ( { model | colorMode = colorMode }, Internal.Port.storeFlags nightMode )
+            ( { model | colorMode = colorMode }, Cmd.none )
 
         ToggleLayoutMode ->
             ( { model

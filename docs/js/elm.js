@@ -6756,19 +6756,19 @@ var author$project$Internal$Update$update = F2(
 						{cs: x}),
 					elm$core$Platform$Cmd$none);
 			case 2:
+				var colorMode = function () {
+					var _n3 = model.c9;
+					if (!_n3) {
+						return 1;
+					} else {
+						return 0;
+					}
+				}();
+				var nightMode = colorMode === 1;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{
-							c9: function () {
-								var _n3 = model.c9;
-								if (!_n3) {
-									return 1;
-								} else {
-									return 0;
-								}
-							}()
-						}),
+						{c9: colorMode}),
 					elm$core$Platform$Cmd$none);
 			case 3:
 				return _Utils_Tuple2(
