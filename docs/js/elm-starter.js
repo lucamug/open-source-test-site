@@ -9,14 +9,11 @@
     let pageInTopArea = pageYOffset <= headerHeight;
     let node = w.document.createElement('div');
     let storageKey = "store";
-    var ls = JSON.parse(localStorage.getItem(storageKey)) || {};
+    let ls = JSON.parse(localStorage.getItem(storageKey)) || {};
     flags = {
         nightMode : typeof ls.nightMode == "boolean" ? ls.nightMode : false,
         width : window.innerWidth,
     };
-
-    console.log("ls", ls);
-    console.log("js", flags);
 
     w.document.body.appendChild(node);
     let app = Elm.Internal.Main.init({
@@ -37,6 +34,7 @@
 
     window.addEventListener("storage", function(event) {
         if (event.storageArea === localStorage && event.key === storageKey) {
+            console.log("storage", event.newValue);
             app.ports.onStoreChange.send(event.newValue);
         }
     }, false);

@@ -33,7 +33,12 @@ init flags url key =
       , filter = filter
       , width = flags.width
       , pageInTopArea = True
-      , colorMode = Type.Day
+      , colorMode =
+            if flags.nightMode then
+                Type.Night
+
+            else
+                Type.Day
       , layoutMode = Type.Grid
       , response = Nothing
       }
