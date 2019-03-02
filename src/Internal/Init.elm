@@ -17,6 +17,9 @@ import Url
 init : Type.Flags -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
+        _ =
+            Debug.log "xxx" flags
+
         filter =
             case CommonRoute.fromUrl Route.conf url of
                 Route.Filter filter_ ->

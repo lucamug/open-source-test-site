@@ -9,8 +9,13 @@
     let pageInTopArea = pageYOffset <= headerHeight;
     let node = w.document.createElement('div');
     let storageKey = "store";
-    let flags = localStorage.getItem(storageKey) || {};
-    flags.width = window.innerWidth;
+    var ls = localStorage.getItem(storageKey) || {};
+    flags = {
+        nightMode : typeof ls.nightMode == "boolean" ? ls.nightMode : false,
+        width : window.innerWidth,
+    };
+
+    console.log("js", flags);
 
     w.document.body.appendChild(node);
     let app = Elm.Internal.Main.init({
