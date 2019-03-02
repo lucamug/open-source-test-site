@@ -70,7 +70,16 @@ view model =
                 ]
             <|
                 [ html <| Html.node "style" [] [ Html.text <| Conf.css ]
-                , el [ width fill, height <| px 190, clip ] <| image [ width fill ] { src = "img/background2.png", description = "Coding..." }
+                , el [ width fill, height <| px 190, clip ] <|
+                    image [ width fill ]
+                        { src =
+                            if model.localStorage.nightMode then
+                                "img/backgroundDark.png"
+
+                            else
+                                "img/backgroundBright.png"
+                        , description = "Coding..."
+                        }
                 , column
                     [ Font.size 30
                     , paddingXY 40 40

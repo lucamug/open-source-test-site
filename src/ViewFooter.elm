@@ -2,10 +2,12 @@ module ViewFooter exposing (view)
 
 import Conf
 import Element exposing (..)
-import Element.Background
+import Element.Background as Background
+import Element.Border as Border
 import Element.Font
 import Element.Input
 import Html exposing (Html)
+import Html.Attributes
 import Internal.Icon
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
@@ -26,7 +28,7 @@ view model =
     el
         [ centerX
         , paddingXY 20 60
-        , Element.Background.color <| Conf.c model .footerBackground
+        , Background.color <| Conf.c model .footerBackground
         , width fill
         , Element.Font.color <| Conf.c model .footerFont
         , Element.Font.size 15
@@ -54,9 +56,39 @@ view model =
                     ]
                 , column [ alignRight, spacing 14, alignTop ]
                     [ link [ alignRight ] { label = Internal.Icon.icon Internal.Icon.Logo_Rakuten (Conf.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
-                    , el [ Element.Font.size 15, Element.Font.color <| Conf.c model .footerFontLight ] <| text "© Rakuten, inc."
+                    , el [ alignRight, Element.Font.size 15, Element.Font.color <| Conf.c model .footerFontLight ] <| text "© Rakuten, inc."
                     , Element.Input.button [ alignRight, paddingXY 0 20 ]
-                        { label = Internal.Icon.icon Internal.Icon.Icon_PlusL (Conf.c model .footerFontLight) Conf.iconSize
+                        { label =
+                            row [ spacing 10 ]
+                                [ text "Night Mode"
+                                , el
+                                    [ width <| px 60
+                                    , height <| px 30
+                                    , Border.rounded 14
+                                    , Background.color <|
+                                        rgb255 150 150 150
+                                    , inFront <|
+                                        el
+                                            [ width <| px 26
+                                            , height <| px 26
+                                            , Border.rounded 13
+                                            , htmlAttribute <| Html.Attributes.style "transition" "all 100ms linear"
+                                            , Background.color <|
+                                                rgb255 10 10 10
+                                            , moveRight <|
+                                                if model.localStorage.nightMode then
+                                                    32
+
+                                                else
+                                                    3
+                                            , moveDown 2
+                                            ]
+                                        <|
+                                            none
+                                    ]
+                                  <|
+                                    none
+                                ]
                         , onPress = Just ToggleColorMode
                         }
                     ]

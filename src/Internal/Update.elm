@@ -39,7 +39,7 @@ update msg model =
         OnStoreChange ls ->
             let
                 localStorageResult =
-                    Debug.log "OnStoreChange xxx" <| Json.Decode.decodeString decoder ls
+                    Json.Decode.decodeString decoder ls
             in
             case localStorageResult of
                 Ok localStorage ->
