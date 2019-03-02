@@ -8,11 +8,13 @@
     let headerHeight = 10;
     let pageInTopArea = pageYOffset <= headerHeight;
     let node = w.document.createElement('div');
+    let storageKey = "store";
+    let flags = localStorage.getItem(storageKey) || {};
+    flags.width = window.innerWidth;
+
     w.document.body.appendChild(node);
     let app = Elm.Internal.Main.init({
-        flags: {
-            width: w.innerWidth
-        },
+        flags: flags,
         node: node
     });
     (function(headerHeight, pageInTopArea, app) {
