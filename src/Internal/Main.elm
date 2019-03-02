@@ -24,6 +24,7 @@ main =
                     [ Browser.Events.onResize Msg.OnResize
                     , Port.pageInTopArea Msg.PageInTopArea
                     , Keyboard.ups Msg.KeyUp
+                    , Port.onStoreChange Msg.OnStoreChange
                     ]
         , onUrlRequest = Msg.LinkClicked
         , onUrlChange = Msg.UrlChanged
