@@ -5,9 +5,6 @@ module ViewBody exposing
 
 import Element exposing (..)
 import Element.Font as Font
-import Html exposing (Html)
-import Internal.Model exposing (Model)
-import Internal.Msg exposing (Msg(..))
 import Internal.Utils as Utils
 
 

@@ -6,11 +6,10 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font
 import Element.Input
-import Html exposing (Html)
 import Html.Attributes
 import Internal.Icon
-import Internal.Model exposing (Model)
-import Internal.Msg exposing (Msg(..))
+import Internal.Model
+import Internal.Msg
 
 
 
@@ -23,7 +22,7 @@ import Internal.Msg exposing (Msg(..))
 -}
 
 
-view : Model -> Element Msg
+view : Internal.Model.Model -> Element Internal.Msg.Msg
 view model =
     el
         [ centerX
@@ -89,7 +88,7 @@ view model =
                                   <|
                                     none
                                 ]
-                        , onPress = Just ToggleColorMode
+                        , onPress = Just Internal.Msg.ToggleColorMode
                         }
                     ]
                 ]
