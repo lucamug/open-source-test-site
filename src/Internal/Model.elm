@@ -1,6 +1,7 @@
 module Internal.Model exposing (Model)
 
 import Browser.Navigation
+import ElmTextSearch
 import Http
 import Internal.Type as Type
 import Url
@@ -14,5 +15,7 @@ type alias Model =
     , pageInTopArea : Bool
     , localStorage : Type.LocalStorage
     , layoutMode : Type.LayoutMode
-    , response : Maybe (Result Http.Error (List Type.Repo))
+    , error : Maybe Http.Error
+    , indexForRepo : ( ElmTextSearch.Index Type.Repo, List ( Int, String ) )
+    , repos : List Type.Repo
     }

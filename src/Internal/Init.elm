@@ -6,7 +6,9 @@ import Internal.CommonRoute as CommonRoute
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
+import Internal.Search as Search
 import Internal.Type as Type
+import Repos
 import Url
 
 
@@ -32,7 +34,9 @@ init flags url key =
       , pageInTopArea = True
       , localStorage = flags.localStorage
       , layoutMode = Type.Grid
-      , response = Nothing
+      , error = Nothing
+      , indexForRepo = Search.indexBuilderforRepo Repos.repos
+      , repos = Repos.repos
       }
     , APIRequest.request
     )

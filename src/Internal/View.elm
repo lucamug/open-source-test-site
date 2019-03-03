@@ -172,34 +172,30 @@ view model =
                     , centerX
                     ]
                     ViewBody.view
-                , case model.response of
-                    Just result ->
-                        case result of
-                            Ok repos ->
-                                column
-                                    [ centerX
-                                    , width (fill |> maximum Conf.maxWidth)
-                                    , spacing 30
-                                    , padding 20
-                                    ]
-                                <|
-                                    (if model.width < 600 then
-                                        viewFirstOne
+                , column
+                    [ centerX
+                    , width (fill |> maximum Conf.maxWidth)
+                    , spacing 30
+                    , padding 20
+                    ]
+                  <|
+                    (if model.width < 600 then
+                        viewFirstOne
 
-                                     else if model.width < 900 then
-                                        viewFirstTwo
+                     else if model.width < 900 then
+                        viewFirstTwo
 
-                                     else
-                                        viewFirstThree
-                                    )
-                                        model
-                                        (Repos.repos ++ repos)
-
-                            Err _ ->
-                                none
+                     else
+                        viewFirstThree
+                    )
+                        model
+                        model.repos
+                , case model.error of
+                    Just errorHttp ->
+                        el [ centerX ] <| text "Error while loading repositories..."
 
                     Nothing ->
-                        el [ centerX ] <| text "Loading repositories..."
+                        none
                 , el [ height <| px 60 ] none
                 , ViewFooter.view model
                 ]

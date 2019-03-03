@@ -7,6 +7,7 @@ import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.Port
 import Internal.Route as Route
+import Internal.Search as Search
 import Internal.Type as Type
 import Internal.Utils as Utils
 import Json.Decode
@@ -49,7 +50,22 @@ update msg model =
                     ( model, Cmd.none )
 
         GotData response ->
-            ( { model | response = Just response }, Cmd.none )
+            let
+                ( repos, error ) =
+                    case response of
+                        Ok repos_ ->
+                            ( model.repos ++ repos_, Nothing )
+
+                        Err err ->
+                            ( model.repos, Just err )
+            in
+            ( { model
+                | repos = repos
+                , indexForRepo = Search.indexBuilderforRepo repos
+                , error = error
+              }
+            , Cmd.none
+            )
 
         LinkClicked urlRequest ->
             case urlRequest of
