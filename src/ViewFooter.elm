@@ -53,9 +53,14 @@ view model =
             , centerX
             , spacing 60
             ]
-            [ column
+            [ (if Utils.isMobile model then
+                column
+
+               else
+                row
+              )
                 [ width fill
-                , explain Debug.todo
+                , spacing 40
                 ]
                 [ column
                     [ spacing 30
@@ -78,7 +83,7 @@ view model =
                     , el [ alignR, Font.size 15, Font.color <| Utils.c model .footerFontLight ] <| text "© Rakuten, inc."
                     , Input.button [ alignR, paddingXY 0 20 ]
                         { label =
-                            row [ spacing 10 ]
+                            row [ spacing 10, Font.color <| Utils.c model .footerFontLight ]
                                 [ text "Night mode"
                                 , el
                                     [ width <| px 60

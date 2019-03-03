@@ -68,19 +68,25 @@ filterInputText model =
             [ Border.width 1
             , Border.rounded 5
             , Border.color <| Utils.c model .border
-            , paddingXY 8 8
-            , Font.size 20
+            , Font.size 18
             , width fill
-            , Background.color <| Utils.c model .background
+            , Background.color <| Utils.c model .repoBackground
             ]
             { onChange = Msg.ChangeFilter
             , text = Utils.decode model.filter
-            , placeholder = Just <| Input.placeholder [ moveDown 4, clip, Font.color <| Utils.c model .fontLight ] <| text (filterText model)
+            , placeholder =
+                Just <|
+                    Input.placeholder
+                        [ Font.color <| Utils.c model .fontLight
+                        , moveDown 4
+                        ]
+                    <|
+                        text (filterText model)
             , label = Input.labelHidden (filterText model)
             }
         , if String.length model.filter > 0 then
             Input.button []
-                { label = Icon.icon Icon.Icon_Close (Utils.c model .font) Conf.iconSize
+                { label = Icon.icon Icon.Icon_Close (Utils.c model .border) Conf.iconSize
                 , onPress = Just <| Msg.ChangeFilter ""
                 }
 
