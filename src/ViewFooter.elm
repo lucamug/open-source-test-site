@@ -24,6 +24,21 @@ import Internal.Utils as Utils
 
 view : Model.Model -> Element Msg.Msg
 view model =
+    let
+        alignL =
+            if Utils.isMobile model then
+                centerX
+
+            else
+                alignLeft
+
+        alignR =
+            if Utils.isMobile model then
+                centerX
+
+            else
+                alignRight
+    in
     el
         [ centerX
         , paddingXY 20 60
@@ -38,9 +53,14 @@ view model =
             , centerX
             , spacing 60
             ]
-            [ row
-                [ width fill ]
-                [ column [ spacing 30 ]
+            [ column
+                [ width fill
+                , explain Debug.todo
+                ]
+                [ column
+                    [ spacing 30
+                    , alignL
+                    ]
                     [ el [ Font.bold ] <| text "GitHub"
                     , column [ spacing 12, Font.color <| Utils.c model .footerFontLight, moveRight 10 ]
                         [ link [] { label = text "Rakuten Technology", url = "https://github.com/rakutentech" }
@@ -53,10 +73,10 @@ view model =
                         , link [] { label = text "Rakuten RapidAPI", url = "https://api.rakuten.co.jp/" }
                         ]
                     ]
-                , column [ alignRight, spacing 14, alignTop ]
-                    [ link [ alignRight ] { label = Icon.icon Icon.Logo_Rakuten (Utils.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
-                    , el [ alignRight, Font.size 15, Font.color <| Utils.c model .footerFontLight ] <| text "© Rakuten, inc."
-                    , Input.button [ alignRight, paddingXY 0 20 ]
+                , column [ alignR, spacing 14, alignTop ]
+                    [ link [ alignR ] { label = Icon.icon Icon.Logo_Rakuten (Utils.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
+                    , el [ alignR, Font.size 15, Font.color <| Utils.c model .footerFontLight ] <| text "© Rakuten, inc."
+                    , Input.button [ alignR, paddingXY 0 20 ]
                         { label =
                             row [ spacing 10 ]
                                 [ text "Night mode"
