@@ -11,7 +11,6 @@ import Html.Attributes
 import Internal.Icon as Icon
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
-import Internal.Type
 import Internal.Utils as Utils
 
 
