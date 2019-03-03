@@ -4,5 +4,3 @@ node_modules
 
 # Desktop Services Store on macOS
 .DS_Store
-
-docs/js/elm.js
