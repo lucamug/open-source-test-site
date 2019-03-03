@@ -60,7 +60,7 @@ view model =
                     , Element.Input.button [ alignRight, paddingXY 0 20 ]
                         { label =
                             row [ spacing 10 ]
-                                [ text "Night Mode"
+                                [ text "Night mode"
                                 , el
                                     [ width <| px 60
                                     , height <| px 30

@@ -18,16 +18,21 @@ import Internal.Type as Type
 
 view : Model -> Int -> Type.Repo -> Element msg
 view model index repo =
-    column [ spacing 6 ]
-        [ el [ Font.size 30 ] <| text <| String.fromInt (index + 1) ++ ". " ++ repo.name
-        , text <| repo.description
-        , text <|
-            if repo.fork then
-                "True"
+    column [ spacing 20, height fill ]
+        [ paragraph
+            [ Font.bold
+            , Font.size 24
+            ]
+            [ text <| repo.name ]
+        , paragraph [] [ text <| repo.description ]
+        , if repo.homepage == "" then
+            none
 
-            else
-                "False"
-        , text <| repo.updated_at
-        , text <| repo.homepage
-        , text <| repo.language
+          else
+            link [] { label = paragraph [] [ text <| repo.homepage ], url = repo.homepage }
+        , if repo.language == "" then
+            none
+
+          else
+            paragraph [ alignBottom ] [ text <| "Language: " ++ repo.language ]
         ]

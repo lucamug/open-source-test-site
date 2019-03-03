@@ -4,6 +4,7 @@ import Browser
 import Conf
 import Element exposing (..)
 import Element.Background as Background
+import Element.Border as Border
 import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes
@@ -11,6 +12,7 @@ import Internal.CommonRoute as CommonRoute
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
+import Internal.Type as Type
 import ViewBody
 import ViewFooter
 import ViewHeader
@@ -25,6 +27,72 @@ import ViewRepo
     ██  ██  ██ ██      ██ ███ ██
      ████   ██ ███████  ███ ███
 -}
+
+
+attrsRepoContainer : Model -> List (Attribute msg)
+attrsRepoContainer model =
+    [ width fill
+    , height fill
+    , alignTop
+    , Border.rounded 10
+    , padding 20
+    , Background.color <| Conf.c model .repoBackground
+    , Border.shadow { offset = ( 2, 2 ), size = 2, blur = 10, color = Conf.c model .repoShadow }
+    ]
+
+
+attrsRow : Model -> List (Attribute msg)
+attrsRow model =
+    [ width fill
+    , spacing 20
+    ]
+
+
+viewFirstTwo : Model -> List Type.Repo -> List (Element msg)
+viewFirstTwo model repos =
+    case repos of
+        [] ->
+            []
+
+        x :: [] ->
+            [ ViewRepo.view model 0 x ]
+
+        x :: y :: xs ->
+            [ row
+                (attrsRow model)
+                [ el (attrsRepoContainer model) <| ViewRepo.view model 0 x
+                , el (attrsRepoContainer model) <| ViewRepo.view model 0 y
+                ]
+            ]
+                ++ viewFirstTwo model xs
+
+
+viewFirstThree : Model -> List Type.Repo -> List (Element msg)
+viewFirstThree model repos =
+    case repos of
+        [] ->
+            []
+
+        x :: [] ->
+            [ ViewRepo.view model 0 x ]
+
+        x :: y :: [] ->
+            [ row
+                (attrsRow model)
+                [ el (attrsRepoContainer model) <| ViewRepo.view model 0 x
+                , el (attrsRepoContainer model) <| ViewRepo.view model 0 y
+                ]
+            ]
+
+        x :: y :: z :: xs ->
+            [ row
+                (attrsRow model)
+                [ el (attrsRepoContainer model) <| ViewRepo.view model 0 x
+                , el (attrsRepoContainer model) <| ViewRepo.view model 0 y
+                , el (attrsRepoContainer model) <| ViewRepo.view model 0 z
+                ]
+            ]
+                ++ viewFirstThree model xs
 
 
 view : Model -> Browser.Document Msg
@@ -105,18 +173,31 @@ view model =
                     , centerX
                     ]
                     ViewBody.view
-                , el attrsContainer <|
-                    case model.response of
-                        Just result ->
-                            case result of
-                                Ok repos ->
-                                    column [ spacing 15 ] <| List.indexedMap (\index repo -> ViewRepo.view model index repo) repos
+                , case model.response of
+                    Just result ->
+                        case result of
+                            Ok repos ->
+                                column
+                                    [ centerX
+                                    , width (fill |> maximum Conf.maxWidth)
+                                    , spacing 30
+                                    , padding 20
+                                    ]
+                                <|
+                                    (if model.width < 900 then
+                                        viewFirstTwo
 
-                                Err err ->
-                                    paragraph [] [ text <| "Error" ]
+                                     else
+                                        viewFirstThree
+                                    )
+                                        model
+                                        repos
 
-                        Nothing ->
-                            text "Loading Repos"
+                            Err _ ->
+                                none
+
+                    Nothing ->
+                        none
                 , el [ height <| px 60 ] none
                 , ViewFooter.view model
                 ]

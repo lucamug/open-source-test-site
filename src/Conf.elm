@@ -87,6 +87,8 @@ css =
 
 type alias ColorPalette =
     { background : Color
+    , repoBackground : Color
+    , repoShadow : Color
     , font : Color
     , fontLight : Color
     , footerBackground : Color
@@ -100,10 +102,12 @@ type alias ColorPalette =
 colorPalette : Bool -> ColorPalette
 colorPalette nightMode =
     if nightMode then
-        { background = rgb 0.2 0.2 0.2
+        { background = rgb 0.1 0.1 0.1
+        , repoBackground = rgb 0.18 0.18 0.18
+        , repoShadow = rgb 0 0 0
         , font = rgb 0.8 0.8 0.8
         , fontLight = rgb 0.5 0.5 0.5
-        , footerBackground = rgb255 20 20 20
+        , footerBackground = rgb255 40 40 40
         , footerFont = rgb255 200 200 200
         , footerFontLight = rgb255 153 153 153
         , border = rgb 0.2 0.2 0.2
@@ -112,6 +116,8 @@ colorPalette nightMode =
 
     else
         { background = rgb 1 1 1
+        , repoBackground = rgb 0.97 0.97 0.97
+        , repoShadow = rgb 0.8 0.8 0.8
         , font = rgb 0.3 0.3 0.3
         , fontLight = rgb 0.4 0.4 0.4
         , footerBackground = rgb255 51 51 51

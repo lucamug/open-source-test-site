@@ -32,3 +32,4 @@ decoderRepo =
         |> Json.Decode.Pipeline.required "updated_at" Json.Decode.string
         |> Json.Decode.Pipeline.optional "homepage" Json.Decode.string ""
         |> Json.Decode.Pipeline.optional "language" Json.Decode.string ""
+        |> Json.Decode.Pipeline.required "html_url" Json.Decode.string

@@ -91,8 +91,8 @@ view model =
                     ]
                     { onChange = Internal.Msg.ChangeFilter
                     , text = Utils.decode model.filter
-                    , placeholder = Just <| Input.placeholder [ Font.color <| Conf.c model .fontLight ] <| text "Filter by repository name, description or language"
-                    , label = Input.labelAbove [] none
+                    , placeholder = Just <| Input.placeholder [ moveDown 4, clip, Font.color <| Conf.c model .fontLight ] <| text "Filter by name, description or language"
+                    , label = Input.labelHidden "Filter by name, description or language"
                     }
                 , if String.length model.filter > 0 then
                     Input.button []
@@ -102,19 +102,22 @@ view model =
 
                   else
                     none
-                , Input.button []
-                    { label =
-                        Icon.icon
-                            (case model.layoutMode of
-                                Type.Grid ->
-                                    Icon.Icon_Row
 
-                                Type.List ->
-                                    Icon.Icon_Grid
-                            )
-                            (Conf.c model .font)
-                            Conf.iconSize
-                    , onPress = Just ToggleLayoutMode
-                    }
+                {-
+                   , Input.button []
+                       { label =
+                           Icon.icon
+                               (case model.layoutMode of
+                                   Type.Grid ->
+                                       Icon.Icon_Row
+
+                                   Type.List ->
+                                       Icon.Icon_Grid
+                               )
+                               (Conf.c model .font)
+                               Conf.iconSize
+                       , onPress = Just ToggleLayoutMode
+                       }
+                -}
                 ]
             ]

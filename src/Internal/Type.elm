@@ -44,4 +44,5 @@ type alias Repo =
     , updated_at : String
     , homepage : String
     , language : String
+    , html_url : String
     }
