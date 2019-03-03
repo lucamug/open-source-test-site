@@ -1,6 +1,5 @@
 module ViewFooter exposing (view)
 
-import Conf
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border

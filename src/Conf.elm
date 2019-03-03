@@ -12,7 +12,6 @@ module Conf exposing
     )
 
 import Element exposing (..)
-import Internal.Model as Model
 
 
 
