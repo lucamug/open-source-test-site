@@ -14,7 +14,6 @@ module Conf exposing
 
 import Element exposing (..)
 import Internal.Model as Model
-import Internal.Msg as Msg
 
 
 
