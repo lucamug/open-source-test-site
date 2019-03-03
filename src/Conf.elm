@@ -13,9 +13,9 @@ module Conf exposing
     )
 
 import Element exposing (..)
-import Html exposing (Html)
-import Internal.Model exposing (Model)
-import Internal.Msg exposing (Msg(..))
+import Html
+import Internal.Model as Model
+import Internal.Msg as Msg
 
 
 
@@ -139,6 +139,6 @@ colorPalette nightMode =
         }
 
 
-c : Model -> (ColorPalette -> b) -> b
+c : Model.Model -> (ColorPalette -> b) -> b
 c model key =
     key <| colorPalette model.localStorage.nightMode

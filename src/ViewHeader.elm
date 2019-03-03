@@ -6,11 +6,11 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Html exposing (Html)
+import Html
 import Html.Attributes
 import Internal.Icon as Icon
-import Internal.Model exposing (Model)
-import Internal.Msg exposing (Msg(..))
+import Internal.Model as Model
+import Internal.Msg as Msg
 import Internal.Utils as Utils
 
 
@@ -24,7 +24,7 @@ import Internal.Utils as Utils
 -}
 
 
-logo : Model -> Element msg
+logo : Model.Model -> Element msg
 logo model =
     row [ spacing 7 ]
         [ if Utils.isMobile model then
@@ -53,12 +53,12 @@ filterText model =
         "Filter by name, description or language"
 
 
-logoSmall : Model -> Element msg
+logoSmall : Model.Model -> Element msg
 logoSmall model =
     el [] <| Icon.icon Icon.Logo_R (Conf.c model .logo) 40
 
 
-filterInputText : Model -> Element Msg
+filterInputText : Model.Model -> Element Msg.Msg
 filterInputText model =
     row [ width fill, spacing 20 ]
         [ Input.text
@@ -70,7 +70,7 @@ filterInputText model =
             , width fill
             , Background.color <| Conf.c model .background
             ]
-            { onChange = Internal.Msg.ChangeFilter
+            { onChange = Msg.ChangeFilter
             , text = Utils.decode model.filter
             , placeholder = Just <| Input.placeholder [ moveDown 4, clip, Font.color <| Conf.c model .fontLight ] <| text (filterText model)
             , label = Input.labelHidden (filterText model)
@@ -78,7 +78,7 @@ filterInputText model =
         , if String.length model.filter > 0 then
             Input.button []
                 { label = Icon.icon Icon.Icon_Close (Conf.c model .font) Conf.iconSize
-                , onPress = Just <| ChangeFilter ""
+                , onPress = Just <| Msg.ChangeFilter ""
                 }
 
           else
@@ -86,7 +86,7 @@ filterInputText model =
         ]
 
 
-view : Model -> Element Msg
+view : Model.Model -> Element Msg.Msg
 view model =
     el
         ([ clip

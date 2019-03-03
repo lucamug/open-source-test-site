@@ -4,12 +4,12 @@ import Conf
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
-import Element.Font
-import Element.Input
+import Element.Font as Font
+import Element.Input as Input
 import Html.Attributes
-import Internal.Icon
-import Internal.Model
-import Internal.Msg
+import Internal.Icon as Icon
+import Internal.Model as Model
+import Internal.Msg as Msg
 
 
 
@@ -22,15 +22,15 @@ import Internal.Msg
 -}
 
 
-view : Internal.Model.Model -> Element Internal.Msg.Msg
+view : Model.Model -> Element Msg.Msg
 view model =
     el
         [ centerX
         , paddingXY 20 60
         , Background.color <| Conf.c model .footerBackground
         , width fill
-        , Element.Font.color <| Conf.c model .footerFont
-        , Element.Font.size 15
+        , Font.color <| Conf.c model .footerFont
+        , Font.size 15
         ]
     <|
         column
@@ -41,22 +41,22 @@ view model =
             [ row
                 [ width fill ]
                 [ column [ spacing 30 ]
-                    [ el [ Element.Font.bold ] <| text "GitHub"
-                    , column [ spacing 12, Element.Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
+                    [ el [ Font.bold ] <| text "GitHub"
+                    , column [ spacing 12, Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
                         [ link [] { label = text "Rakuten Technology", url = "https://github.com/rakutentech" }
                         , link [] { label = text "Rakuten Front-end", url = "https://github.com/rakuten-frontend" }
                         , link [] { label = text "Rakuten Web Service", url = "https://github.com/rakuten-ws" }
                         ]
-                    , el [ Element.Font.bold ] <| text "Resources"
-                    , column [ spacing 12, Element.Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
+                    , el [ Font.bold ] <| text "Resources"
+                    , column [ spacing 12, Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
                         [ link [] { label = text "Rakuten Developers", url = "https://webservice.rakuten.co.jp/" }
                         , link [] { label = text "Rakuten RapidAPI", url = "https://api.rakuten.co.jp/" }
                         ]
                     ]
                 , column [ alignRight, spacing 14, alignTop ]
-                    [ link [ alignRight ] { label = Internal.Icon.icon Internal.Icon.Logo_Rakuten (Conf.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
-                    , el [ alignRight, Element.Font.size 15, Element.Font.color <| Conf.c model .footerFontLight ] <| text "© Rakuten, inc."
-                    , Element.Input.button [ alignRight, paddingXY 0 20 ]
+                    [ link [ alignRight ] { label = Icon.icon Icon.Logo_Rakuten (Conf.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
+                    , el [ alignRight, Font.size 15, Font.color <| Conf.c model .footerFontLight ] <| text "© Rakuten, inc."
+                    , Input.button [ alignRight, paddingXY 0 20 ]
                         { label =
                             row [ spacing 10 ]
                                 [ text "Night mode"
@@ -88,7 +88,7 @@ view model =
                                   <|
                                     none
                                 ]
-                        , onPress = Just Internal.Msg.ToggleColorMode
+                        , onPress = Just Msg.ToggleColorMode
                         }
                     ]
                 ]

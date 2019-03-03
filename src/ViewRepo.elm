@@ -4,7 +4,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Html.Attributes
-import Internal.Model exposing (Model)
+import Internal.Model as Model
 import Internal.Type as Type
 
 
@@ -18,7 +18,7 @@ import Internal.Type as Type
 -}
 
 
-view : Model -> Int -> Type.Repo -> Element msg
+view : Model.Model -> Int -> Type.Repo -> Element msg
 view model index repo =
     column
         [ spacing 20
