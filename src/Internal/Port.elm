@@ -5,9 +5,7 @@ port module Internal.Port exposing
     , toLocalStorage
     )
 
-import Internal.Type as Type
-import Json.Decode
-import Json.Decode.Pipeline
+import Internal.Type
 import Json.Encode
 
 

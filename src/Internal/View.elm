@@ -13,7 +13,6 @@ import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
 import Internal.Type as Type
-import Repos
 import ViewBody
 import ViewFooter
 import ViewHeader

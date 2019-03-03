@@ -3,7 +3,6 @@ module Internal.Msg exposing (Msg(..))
 import Browser
 import Http
 import Internal.Type as Type
-import Json.Encode
 import Keyboard
 import Url
 
