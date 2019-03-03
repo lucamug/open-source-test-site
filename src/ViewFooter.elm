@@ -10,6 +10,7 @@ import Html.Attributes
 import Internal.Icon as Icon
 import Internal.Model as Model
 import Internal.Msg as Msg
+import Internal.Utils as Utils
 
 
 
@@ -27,9 +28,9 @@ view model =
     el
         [ centerX
         , paddingXY 20 60
-        , Background.color <| Conf.c model .footerBackground
+        , Background.color <| Utils.c model .footerBackground
         , width fill
-        , Font.color <| Conf.c model .footerFont
+        , Font.color <| Utils.c model .footerFont
         , Font.size 15
         ]
     <|
@@ -42,20 +43,20 @@ view model =
                 [ width fill ]
                 [ column [ spacing 30 ]
                     [ el [ Font.bold ] <| text "GitHub"
-                    , column [ spacing 12, Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
+                    , column [ spacing 12, Font.color <| Utils.c model .footerFontLight, moveRight 10 ]
                         [ link [] { label = text "Rakuten Technology", url = "https://github.com/rakutentech" }
                         , link [] { label = text "Rakuten Front-end", url = "https://github.com/rakuten-frontend" }
                         , link [] { label = text "Rakuten Web Service", url = "https://github.com/rakuten-ws" }
                         ]
                     , el [ Font.bold ] <| text "Resources"
-                    , column [ spacing 12, Font.color <| Conf.c model .footerFontLight, moveRight 10 ]
+                    , column [ spacing 12, Font.color <| Utils.c model .footerFontLight, moveRight 10 ]
                         [ link [] { label = text "Rakuten Developers", url = "https://webservice.rakuten.co.jp/" }
                         , link [] { label = text "Rakuten RapidAPI", url = "https://api.rakuten.co.jp/" }
                         ]
                     ]
                 , column [ alignRight, spacing 14, alignTop ]
-                    [ link [ alignRight ] { label = Icon.icon Icon.Logo_Rakuten (Conf.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
-                    , el [ alignRight, Font.size 15, Font.color <| Conf.c model .footerFontLight ] <| text "© Rakuten, inc."
+                    [ link [ alignRight ] { label = Icon.icon Icon.Logo_Rakuten (Utils.c model .footerFont) 32, url = "https://global.rakuten.com/corp/" }
+                    , el [ alignRight, Font.size 15, Font.color <| Utils.c model .footerFontLight ] <| text "© Rakuten, inc."
                     , Input.button [ alignRight, paddingXY 0 20 ]
                         { label =
                             row [ spacing 10 ]

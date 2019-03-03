@@ -1,7 +1,6 @@
 module Conf exposing
     ( ColorPalette
     , borderSize
-    , c
     , colorPalette
     , css
     , headerHeight
@@ -135,8 +134,3 @@ colorPalette nightMode =
         , border = rgb 0.8 0.8 0.8
         , logo = rgb255 191 0 0
         }
-
-
-c : Model.Model -> (ColorPalette -> b) -> b
-c model key =
-    key <| colorPalette model.localStorage.nightMode

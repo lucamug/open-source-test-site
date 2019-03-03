@@ -13,6 +13,7 @@ import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
 import Internal.Type as Type
+import Internal.Utils as Utils
 import ViewBody
 import ViewFooter
 import ViewHeader
@@ -36,8 +37,8 @@ attrsRepoContainer model =
     , alignTop
     , Border.rounded 10
     , padding 20
-    , Background.color <| Conf.c model .repoBackground
-    , Border.shadow { offset = ( 2, 2 ), size = 2, blur = 10, color = Conf.c model .repoShadow }
+    , Background.color <| Utils.c model .repoBackground
+    , Border.shadow { offset = ( 2, 2 ), size = 2, blur = 10, color = Utils.c model .repoShadow }
     ]
 
 
@@ -137,9 +138,9 @@ view model =
                 [ Font.typeface "Noto Sans JP"
                 , Font.sansSerif
                 ]
-            , Font.color <| Conf.c model .font
+            , Font.color <| Utils.c model .font
             , Font.size 18
-            , Background.color <| Conf.c model .background
+            , Background.color <| Utils.c model .background
             , htmlAttribute <| Html.Attributes.style "transition" "background 1000ms linear"
             , inFront <| ViewHeader.view model
             ]

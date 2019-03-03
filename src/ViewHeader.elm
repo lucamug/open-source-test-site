@@ -27,12 +27,12 @@ logo : Model.Model -> Element msg
 logo model =
     row [ spacing 7 ]
         [ if Utils.isMobile model then
-            el [ moveDown 0 ] <| Icon.icon Icon.Logo_R (Conf.c model .logo) 50
+            el [ moveDown 0 ] <| Icon.icon Icon.Logo_R (Utils.c model .logo) 50
 
           else
-            el [] <| Icon.icon Icon.Logo_Rakuten (Conf.c model .logo) 30
+            el [] <| Icon.icon Icon.Logo_Rakuten (Utils.c model .logo) 30
         , el
-            [ Font.color <| Conf.c model .logo
+            [ Font.color <| Utils.c model .logo
             , Font.size 26
             , Font.letterSpacing -1
             , Font.bold
@@ -54,7 +54,7 @@ filterText model =
 
 logoSmall : Model.Model -> Element msg
 logoSmall model =
-    el [] <| Icon.icon Icon.Logo_R (Conf.c model .logo) 40
+    el [] <| Icon.icon Icon.Logo_R (Utils.c model .logo) 40
 
 
 filterInputText : Model.Model -> Element Msg.Msg
@@ -63,20 +63,20 @@ filterInputText model =
         [ Input.text
             [ Border.width 1
             , Border.rounded 5
-            , Border.color <| Conf.c model .border
+            , Border.color <| Utils.c model .border
             , paddingXY 8 8
             , Font.size 20
             , width fill
-            , Background.color <| Conf.c model .background
+            , Background.color <| Utils.c model .background
             ]
             { onChange = Msg.ChangeFilter
             , text = Utils.decode model.filter
-            , placeholder = Just <| Input.placeholder [ moveDown 4, clip, Font.color <| Conf.c model .fontLight ] <| text (filterText model)
+            , placeholder = Just <| Input.placeholder [ moveDown 4, clip, Font.color <| Utils.c model .fontLight ] <| text (filterText model)
             , label = Input.labelHidden (filterText model)
             }
         , if String.length model.filter > 0 then
             Input.button []
-                { label = Icon.icon Icon.Icon_Close (Conf.c model .font) Conf.iconSize
+                { label = Icon.icon Icon.Icon_Close (Utils.c model .font) Conf.iconSize
                 , onPress = Just <| Msg.ChangeFilter ""
                 }
 
@@ -90,7 +90,7 @@ view model =
     el
         ([ clip
          , width fill
-         , Background.color <| Conf.c model .background
+         , Background.color <| Utils.c model .background
          , htmlAttribute <| Html.Attributes.style "transition" "all 200ms linear"
          ]
             ++ (if model.pageInTopArea then

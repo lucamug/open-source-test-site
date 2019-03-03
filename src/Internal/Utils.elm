@@ -1,5 +1,6 @@
 module Internal.Utils exposing
-    ( decode
+    ( c
+    , decode
     , elementColorToElmColor
     , encode
     , isMobile
@@ -9,7 +10,13 @@ module Internal.Utils exposing
 import Color as ElmColor
 import Conf
 import Element
+import Internal.Model as Model
 import Url
+
+
+c : Model.Model -> (Conf.ColorPalette -> b) -> b
+c model key =
+    key <| Conf.colorPalette model.localStorage.nightMode
 
 
 isMobile : { a | width : number } -> Bool
