@@ -1,9 +1,7 @@
 module Repos exposing (repos)
 
 import Element exposing (..)
-import Html
 import Internal.Model as Model
-import Internal.Msg as Msg
 import Internal.Type as Type
 
 

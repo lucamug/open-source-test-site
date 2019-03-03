@@ -13,7 +13,6 @@ module Conf exposing
     )
 
 import Element exposing (..)
-import Html
 import Internal.Model as Model
 import Internal.Msg as Msg
 

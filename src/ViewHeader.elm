@@ -6,7 +6,6 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Html
 import Html.Attributes
 import Internal.Icon as Icon
 import Internal.Model as Model
