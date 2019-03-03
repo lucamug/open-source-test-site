@@ -1,5 +1,6 @@
 module Internal.Search exposing
-    ( indexBuilderforRepo
+    ( filteredRepos
+    , indexBuilderforRepo
     , resultSearch
     )
 
@@ -8,6 +9,7 @@ import Index.Defaults
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
 import Internal.StopWordFilter as StopWordFilter
+import Internal.Utils as Utils
 import StopWordFilter
 
 
@@ -46,3 +48,35 @@ resultSearch :
     -> Result String ( ElmTextSearch.Index doc, List ( String, Float ) )
 resultSearch index searchString =
     ElmTextSearch.search searchString (Tuple.first index)
+
+
+filteredRepos :
+    { c
+        | filter : String
+        , indexForRepo : ( ElmTextSearch.Index doc, b )
+        , repos : List { a | name : String }
+    }
+    -> List { a | name : String }
+filteredRepos model =
+    let
+        searchResults =
+            Result.map Tuple.second <|
+                resultSearch model.indexForRepo (Utils.decode model.filter)
+
+        itemsToShow =
+            case searchResults of
+                Ok result ->
+                    List.concatMap
+                        (\item ->
+                            let
+                                id =
+                                    Tuple.first item
+                            in
+                            List.filter (\item_ -> item_.name == id) model.repos
+                        )
+                        result
+
+                Err _ ->
+                    model.repos
+    in
+    itemsToShow

@@ -9,9 +9,10 @@ import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes
 import Internal.CommonRoute as CommonRoute
-import Internal.Model exposing (Model)
+import Internal.Model as Model
 import Internal.Msg exposing (Msg(..))
 import Internal.Route as Route
+import Internal.Search as Search
 import Internal.Type as Type
 import Internal.Utils as Utils
 import ViewBody
@@ -30,7 +31,7 @@ import ViewRepo
 -}
 
 
-attrsRepoContainer : Model -> List (Attribute msg)
+attrsRepoContainer : Model.Model -> List (Attribute msg)
 attrsRepoContainer model =
     [ width fill
     , height fill
@@ -42,14 +43,14 @@ attrsRepoContainer model =
     ]
 
 
-attrsRow : Model -> List (Attribute msg)
+attrsRow : Model.Model -> List (Attribute msg)
 attrsRow model =
     [ width fill
     , spacing 20
     ]
 
 
-repoCell : Model -> Type.Repo -> Element msg
+repoCell : Model.Model -> Type.Repo -> Element msg
 repoCell model repo =
     link (attrsRepoContainer model)
         { url = repo.html_url
@@ -57,12 +58,12 @@ repoCell model repo =
         }
 
 
-viewFirstOne : Model -> List Type.Repo -> List (Element msg)
+viewFirstOne : Model.Model -> List Type.Repo -> List (Element msg)
 viewFirstOne model repos =
     List.map (\repo -> repoCell model repo) repos
 
 
-viewFirstTwo : Model -> List Type.Repo -> List (Element msg)
+viewFirstTwo : Model.Model -> List Type.Repo -> List (Element msg)
 viewFirstTwo model repos =
     case repos of
         [] ->
@@ -81,7 +82,7 @@ viewFirstTwo model repos =
                 ++ viewFirstTwo model xs
 
 
-viewFirstThree : Model -> List Type.Repo -> List (Element msg)
+viewFirstThree : Model.Model -> List Type.Repo -> List (Element msg)
 viewFirstThree model repos =
     case repos of
         [] ->
@@ -109,7 +110,67 @@ viewFirstThree model repos =
                 ++ viewFirstThree model xs
 
 
-view : Model -> Browser.Document Msg
+viewIntroduction : Model.Model -> Element msg
+viewIntroduction model =
+    column [ width fill ]
+        [ el
+            [ width fill
+            , height <| px 190
+            , Background.image <|
+                if model.localStorage.nightMode then
+                    "img/backgroundDark.png"
+
+                else
+                    "img/backgroundBright.png"
+            ]
+          <|
+            none
+        , ViewBody.viewTagline model
+        , paragraph
+            [ spacing 8
+            , width (fill |> maximum 800)
+            , padding 20
+            , centerX
+            ]
+            ViewBody.view
+        ]
+
+
+viewRepos : Model.Model -> Element msg
+viewRepos model =
+    let
+        repos =
+            Search.filteredRepos model
+
+        length =
+            List.length repos
+    in
+    column
+        [ centerX
+        , width (fill |> maximum Conf.maxWidth)
+        , spacing 30
+        , padding 20
+        ]
+    <|
+        if length == 0 then
+            [ el [ centerX, paddingXY 0 100 ] <| text <| "No Repositories found for the filter \"" ++ model.filter ++ "\"" ]
+
+        else
+            [ el [] <| text <| String.fromInt length ++ " repositories" ]
+                ++ (if model.width < 600 then
+                        viewFirstOne
+
+                    else if model.width < 900 then
+                        viewFirstTwo
+
+                    else
+                        viewFirstThree
+                   )
+                    model
+                    repos
+
+
+view : Model.Model -> Browser.Document Msg
 view model =
     let
         route =
@@ -152,44 +213,12 @@ view model =
                 ]
             <|
                 [ html <| Html.node "style" [] [ Html.text <| Conf.css ]
-                , el
-                    [ width fill
-                    , height <| px 190
-                    , Background.image <|
-                        if model.localStorage.nightMode then
-                            "img/backgroundDark.png"
+                , if model.filter == "" then
+                    viewIntroduction model
 
-                        else
-                            "img/backgroundBright.png"
-                    ]
-                  <|
+                  else
                     none
-                , ViewBody.viewTagline model
-                , paragraph
-                    [ spacing 8
-                    , width (fill |> maximum 800)
-                    , padding 20
-                    , centerX
-                    ]
-                    ViewBody.view
-                , column
-                    [ centerX
-                    , width (fill |> maximum Conf.maxWidth)
-                    , spacing 30
-                    , padding 20
-                    ]
-                  <|
-                    (if model.width < 600 then
-                        viewFirstOne
-
-                     else if model.width < 900 then
-                        viewFirstTwo
-
-                     else
-                        viewFirstThree
-                    )
-                        model
-                        model.repos
+                , viewRepos model
                 , case model.error of
                     Just errorHttp ->
                         el [ centerX ] <| text "Error while loading repositories..."

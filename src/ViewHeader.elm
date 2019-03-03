@@ -31,15 +31,19 @@ logo model =
 
           else
             el [] <| Icon.icon Icon.Logo_Rakuten (Utils.c model .logo) 30
-        , el
-            [ Font.color <| Utils.c model .logo
-            , Font.size 26
-            , Font.letterSpacing -1
-            , Font.bold
-            , moveUp 4
-            ]
-          <|
-            text "Open Source"
+        , if Utils.isMobile model && model.filter /= "" then
+            none
+
+          else
+            el
+                [ Font.color <| Utils.c model .logo
+                , Font.size 26
+                , Font.letterSpacing -1
+                , Font.bold
+                , moveUp 4
+                ]
+            <|
+                text "Open Source"
         ]
 
 
