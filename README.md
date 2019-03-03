@@ -1,6 +1,8 @@
 # rakutentech.github.io
 
-TODO: add a description of the repository here
+Website of Rakuten Open-source.
+
+This app is written in [Elm](https://elm-lang.org). It requires to be compiled before being published. Keep reading to learn how to modify it.
 
 ## To install the development environment
 
@@ -56,22 +58,36 @@ The app automatically get the list of the repositories from Github. It also has 
 
 ## Files details
 
-### Folder cmd
+### Folder "cmd"
 
 Contain all the commands that can be executed
 
-### Folder docs
+### Folder "docs"
 
 Contains all static file that are needed for the application to run. This folder is the one that automatically picked up github when the project is published
 
-### Folder
+### Folder "elm-stuff"
 
-### Folder scr
+Contains Elm dependencies, not to be pushed in the repository
 
+### Folder "node_modules"
+
+Contains other dependencies, not to be pushed in the repository. This folder contains, among other things, Elm compiler and elm-live.
+
+### Folder "scr"
+
+* Internal (folder) : This folder contain the rest of the application that usually don't need to be modified unless new feature need to be added to the site
 * Conf.elm : Configuration values such as colors and sizes
 * Repos.elm : A list of repositories that are not under the `rakutentech` github account
 * ViewBody.elm : This file contain the tagline that appear at the top of the page and the paragraph underneath
 * ViewFooter.elm : The footer
 * ViewHeader.elm : The header
 * ViewRepo.elm : This contain how the repo data is displayed in each card
-* Internal (folder) : This folder contain the rest of the application that usually don't need to be modified unless new feature need to be added to the site
+
+### Root Folder
+
+* elm.json : Meta data about the Elm project. Updated automatically by Elm.
+* package-lock.json : To manage npm dependencies. Updated automatically.
+* package.json : To manage npm dependencies
+* notes.txt : Notes
+* README.md : This file
