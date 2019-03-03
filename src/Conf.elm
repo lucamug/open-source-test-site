@@ -8,6 +8,8 @@ module Conf exposing
     , headerHeightSmall
     , iconSize
     , maxWidth
+    , paddingDesktop
+    , paddingMobile
     )
 
 import Element exposing (..)
@@ -50,6 +52,16 @@ maxWidth =
 iconSize : Int
 iconSize =
     32
+
+
+paddingDesktop : Int
+paddingDesktop =
+    20
+
+
+paddingMobile : Int
+paddingMobile =
+    8
 
 
 

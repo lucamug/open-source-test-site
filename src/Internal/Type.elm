@@ -45,4 +45,5 @@ type alias Repo =
     , homepage : String
     , language : String
     , html_url : String
+    , logo : String
     }

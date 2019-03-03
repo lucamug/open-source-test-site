@@ -48,6 +48,19 @@ attrsRow model =
     ]
 
 
+repoCell : Model -> Type.Repo -> Element msg
+repoCell model repo =
+    link (attrsRepoContainer model)
+        { url = repo.html_url
+        , label = ViewRepo.view model 0 repo
+        }
+
+
+viewFirstOne : Model -> List Type.Repo -> List (Element msg)
+viewFirstOne model repos =
+    List.map (\repo -> repoCell model repo) repos
+
+
 viewFirstTwo : Model -> List Type.Repo -> List (Element msg)
 viewFirstTwo model repos =
     case repos of
@@ -55,13 +68,13 @@ viewFirstTwo model repos =
             []
 
         x :: [] ->
-            [ ViewRepo.view model 0 x ]
+            [ repoCell model x ]
 
         x :: y :: xs ->
             [ row
                 (attrsRow model)
-                [ el (attrsRepoContainer model) <| ViewRepo.view model 0 x
-                , el (attrsRepoContainer model) <| ViewRepo.view model 0 y
+                [ repoCell model x
+                , repoCell model y
                 ]
             ]
                 ++ viewFirstTwo model xs
@@ -74,22 +87,22 @@ viewFirstThree model repos =
             []
 
         x :: [] ->
-            [ ViewRepo.view model 0 x ]
+            [ repoCell model x ]
 
         x :: y :: [] ->
             [ row
                 (attrsRow model)
-                [ el (attrsRepoContainer model) <| ViewRepo.view model 0 x
-                , el (attrsRepoContainer model) <| ViewRepo.view model 0 y
+                [ repoCell model x
+                , repoCell model y
                 ]
             ]
 
         x :: y :: z :: xs ->
             [ row
                 (attrsRow model)
-                [ el (attrsRepoContainer model) <| ViewRepo.view model 0 x
-                , el (attrsRepoContainer model) <| ViewRepo.view model 0 y
-                , el (attrsRepoContainer model) <| ViewRepo.view model 0 z
+                [ repoCell model x
+                , repoCell model y
+                , repoCell model z
                 ]
             ]
                 ++ viewFirstThree model xs
@@ -138,34 +151,19 @@ view model =
                 ]
             <|
                 [ html <| Html.node "style" [] [ Html.text <| Conf.css ]
-                , el [ width fill, height <| px 190, clip ] <|
-                    image [ width fill ]
-                        { src =
-                            if model.localStorage.nightMode then
-                                "img/backgroundDark.png"
+                , el
+                    [ width fill
+                    , height <| px 190
+                    , Background.image <|
+                        if model.localStorage.nightMode then
+                            "img/backgroundDark.png"
 
-                            else
-                                "img/backgroundBright.png"
-                        , description = "Coding..."
-                        }
-                , column
-                    [ Font.size 30
-                    , paddingXY 40 40
-                    , moveDown 40
-                    , width (fill |> maximum 600)
-                    , centerX
-                    , spacing 10
-                    , Font.center
+                        else
+                            "img/backgroundBright.png"
                     ]
-                    [ row [ centerX ]
-                        [ el [ Font.size 70 ] <| text "“"
-                        , text "Contribute to society by"
-                        ]
-                    , row [ centerX, moveUp 30 ]
-                        [ text "creating value through innovation"
-                        , el [ Font.size 70, moveDown 30 ] <| text "”"
-                        ]
-                    ]
+                  <|
+                    none
+                , ViewBody.viewTagline model
                 , paragraph
                     [ spacing 8
                     , width (fill |> maximum 800)
@@ -184,7 +182,10 @@ view model =
                                     , padding 20
                                     ]
                                 <|
-                                    (if model.width < 900 then
+                                    (if model.width < 600 then
+                                        viewFirstOne
+
+                                     else if model.width < 900 then
                                         viewFirstTwo
 
                                      else
@@ -197,7 +198,7 @@ view model =
                                 none
 
                     Nothing ->
-                        none
+                        el [ centerX ] <| text "Loading repositories..."
                 , el [ height <| px 60 ] none
                 , ViewFooter.view model
                 ]

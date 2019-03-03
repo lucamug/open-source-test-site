@@ -1,10 +1,14 @@
-module ViewBody exposing (view)
+module ViewBody exposing
+    ( view
+    , viewTagline
+    )
 
 import Element exposing (..)
 import Element.Font as Font
 import Html exposing (Html)
 import Internal.Model exposing (Model)
 import Internal.Msg exposing (Msg(..))
+import Internal.Utils as Utils
 
 
 
@@ -15,6 +19,44 @@ import Internal.Msg exposing (Msg(..))
    ██   ██ ██    ██ ██   ██    ██
    ██████   ██████  ██████     ██
 -}
+
+
+viewTagline : { a | width : number } -> Element msg
+viewTagline model =
+    if Utils.isMobile model then
+        paragraph
+            [ Font.size 30
+            , paddingXY 40 40
+            , moveDown 40
+            , width (fill |> maximum 600)
+            , centerX
+            , spacing 10
+            , Font.center
+            ]
+            [ el [] <| text "“"
+            , text "Contribute to society by creating value through innovation"
+            , el [] <| text "”"
+            ]
+
+    else
+        column
+            [ Font.size 30
+            , paddingXY 40 40
+            , moveDown 40
+            , width (fill |> maximum 600)
+            , centerX
+            , spacing 10
+            , Font.center
+            ]
+            [ row [ centerX ]
+                [ el [ Font.size 70 ] <| text "“"
+                , text "Contribute to society by"
+                ]
+            , row [ centerX, moveUp 30 ]
+                [ text "creating value through innovation"
+                , el [ Font.size 70, moveDown 30 ] <| text "”"
+                ]
+            ]
 
 
 view : List (Element msg)
